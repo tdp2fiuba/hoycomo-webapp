@@ -1,0 +1,16 @@
+{
+  "name": "hoycomo-webapp",
+  "version": "1.0.0",
+  "description": "WebApp - HoyComo - FIUBA | TDP II",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "FME-JMB-BL",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "log4js": "^0.6.38"
+  }
+}
