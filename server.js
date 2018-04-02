@@ -13,7 +13,7 @@ console.log('Server started in port 8080');
 // Esta línea es para poder acceder directamente a los archivos de angular y angular material cuando se referencian
 // en un tag <script> o <link>
 app.use(express.static(path.join(__dirname, '/src/static')));
-
+app.use(express.static(path.join(__dirname, '/src/webapp')))
 
 app.route('/').get(function(req, res){
 	 res.sendFile(path.join(__dirname + '/src/webapp/index.html'));

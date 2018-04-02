@@ -6,35 +6,17 @@
     <link rel="stylesheet" href="css/angular-material.min.css">
     <link rel="stylesheet" href="css/hoyComoStyles.css">
     <script src="js/angular.min.js"></script>
-  <script src="js/angular-animate.min.js"></script>
-  <script src="js/angular-aria.min.js"></script>
-  <script src="js/angular-messages.min.js"></script>
+    <script src="js/angular-animate.min.js"></script>
+    <script src="js/angular-aria.min.js"></script>
+    <script src="js/angular-messages.min.js"></script>
 
-  <!-- Angular Material Library -->
-  <script src="js/angular-material.min.js"></script>
+    <script src="js/angular-material.min.js"></script>
   
-    <script type="text/javascript">
-        // Include app dependency on ngMaterial
-        angular.module( 'loginApp', [ 'ngMaterial', 'ngMessages', 'ngAnimate','ngAria' ] )
-        .config(function($mdThemingProvider) {
-        $mdThemingProvider
-            .theme('default')
-            .primaryPalette('teal')
-    })
-        .controller('MainCtrl', function($scope){
-  $scope.vm = {
-      formData: {
-        email: 'hello@patternry.com',
-       	password: 'foobar'
-      }
-  };
-  
-});
-    </script> 
-
-
+    <script src="app/main/login/loginApp.js"></script> 
+    <script src="app/main/login/loginConfig.js"></script> 
+    <script src="app/components/login/loginController.js"></script> 
 </head>
-<body ng-app="loginApp" ng-controller="MainCtrl">
+<body ng-app="loginApp" ng-controller="LoginCtrl">
     <div layout="column" layout-align="start center" layout-fill="layout-fill">
         <h1 class="md-display-4">HoyComo</h1>
         <h1 class="md-display-3">Comercios</h1>
@@ -42,26 +24,30 @@
             <md-toolbar>
                 <h2 class="md-toolbar-tools"><span>Ingrese sus credenciales</span></h2>
             </md-toolbar>
-            <form name="loginForm">
-            <md-content layout="column" class="md-padding">
-                <md-input-container>
-                    <label>Usuario</label>
-                    <input required type="text" ng-model="loginModel.username" name="username" />
-                    <div ng-messages="loginForm.username.$error">
-                        <div ng-message="required">This is required.</div>
+            <form name="loginForm" novalidate ng-submit="loginForm.$valid && handleSubmit()" >
+                <md-content layout="column" class="md-padding">
+                    <md-input-container>
+                        <label>Usuario</label>
+                        <input required type="text" ng-model="loginModel.username" name="username" />
+                        <div ng-messages="loginForm.username.$error">
+                            <div ng-message="required">Este campo es requerido</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Contraseña</label>
+                        <input required type="password" ng-model="loginModel.password" name="password" />
+                        <div ng-messages="loginForm.password.$error" role="alert">
+                            <div ng-message="required">Este campo es requerido</div>
+                        </div>
+                    </md-input-container>
+                    <div layout="row" layout-align="center center">
+                        <md-button type="submit" 
+                                   class="md-raised md-primary"
+                                   ng-disabled="isSubmitted">
+                                   Ingresar
+                        </md-button>
                     </div>
-                </md-input-container>
-                <md-input-container>
-                    <label>Contraseña</label>
-                    <input required type="password" ng-model="loginModel.password" name="password" />
-                    <div ng-messages="loginForm.password.$error" role="alert">
-                        <div ng-message="required">This is required.</div>
-                    </div>
-                </md-input-container>
-                <div layout="row" layout-align="center center">
-                    <md-button type="submit" class="md-raised md-primary">Ingresar</md-button>
-                </div>
-            </md-content>
+                </md-content>
             </form>
         </div>
     </div>
