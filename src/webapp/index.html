@@ -14,9 +14,10 @@
   
     <script src="app/main/login/loginApp.js"></script> 
     <script src="app/main/login/loginConfig.js"></script> 
+    <script src="app/components/login/loginService.js"></script> 
     <script src="app/components/login/loginController.js"></script> 
 </head>
-<body ng-app="loginApp" ng-controller="LoginCtrl">
+<body ng-app="loginApp" ng-controller="LoginCtrl as ctrl">
     <div layout="column" layout-align="start center" layout-fill="layout-fill">
         <h1 class="md-display-4">HoyComo</h1>
         <h1 class="md-display-3">Comercios</h1>
@@ -24,26 +25,29 @@
             <md-toolbar>
                 <h2 class="md-toolbar-tools"><span>Ingrese sus credenciales</span></h2>
             </md-toolbar>
-            <form name="loginForm" novalidate ng-submit="loginForm.$valid && handleSubmit()" >
+            <form name="loginForm" novalidate ng-submit="loginForm.$valid && ctrl.handleSubmit()" >
                 <md-content layout="column" class="md-padding">
                     <md-input-container>
                         <label>Usuario</label>
-                        <input required type="text" ng-model="loginModel.username" name="username" />
-                        <div ng-messages="loginForm.username.$error">
+                        <input required type="text" ng-model="ctrl.user" name="user" />
+                        <div ng-messages="loginForm.user.$error">
                             <div ng-message="required">Este campo es requerido</div>
                         </div>
                     </md-input-container>
                     <md-input-container>
                         <label>Contraseña</label>
-                        <input required type="password" ng-model="loginModel.password" name="password" />
+                        <input required type="password" ng-model="ctrl.password" name="password" />
                         <div ng-messages="loginForm.password.$error" role="alert">
                             <div ng-message="required">Este campo es requerido</div>
                         </div>
                     </md-input-container>
+                    <div ng-show="loginError" ng-messages="backendErrors">
+                        <div ng-message="serverMessage">{{ctrl.errorMessage}}</div>
+                    </div>
                     <div layout="row" layout-align="center center">
                         <md-button type="submit" 
                                    class="md-raised md-primary"
-                                   ng-disabled="isSubmitted">
+                                   ng-disabled="ctrl.isSubmitted">
                                    Ingresar
                         </md-button>
                     </div>

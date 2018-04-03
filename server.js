@@ -6,9 +6,9 @@ var app = express();
 var http = require('http');
 var path = require('path')
 
-http.createServer(app).listen(8080);
+http.createServer(app).listen(3000);
 
-console.log('Server started in port 8080');
+console.log('Server started in port 3000');
 
 // Esta línea es para poder acceder directamente a los archivos de angular y angular material cuando se referencian
 // en un tag <script> o <link>
