@@ -3,12 +3,10 @@ app.controller('LoginCtrl', function($scope, loginService) {
     self.isSubmitted = false;
     self.user = null;
     self.password = null;
-    self.loginError = false;
 
     self.handleSubmit = function () {
+        self.errorMessage = null;
         self.isSubmitted = true;
-        self.loginError = false;
-        self.backendErrors = [];
         loginService.login({ user: self.user, password: self.password })
                     .then(function (account) {
                         self.isSubmitted = false;
@@ -16,8 +14,7 @@ app.controller('LoginCtrl', function($scope, loginService) {
                     })
                     .catch(function (err) {
                         self.isSubmitted = false;
-                        self.loginError = true;
-                        self.backendErrors.push(err.data.message);
+                        self.errorMessage = err.data.message;
                     })
     }
 })

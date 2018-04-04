@@ -41,8 +41,8 @@
                             <div ng-message="required">Este campo es requerido</div>
                         </div>
                     </md-input-container>
-                    <div ng-show="loginError" ng-messages="backendErrors">
-                        <div ng-message="serverMessage">{{ctrl.errorMessage}}</div>
+                    <div class="custom-animation-container">
+                        <div ng-show="ctrl.errorMessage" class="custom-animation errorMessage">{{ ctrl.errorMessage }}</div>
                     </div>
                     <div layout="row" layout-align="center center">
                         <md-button type="submit" 
