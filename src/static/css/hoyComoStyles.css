@@ -29,7 +29,7 @@ h1, h2, h3, h4, h5, h6 {
     overflow: hidden;
     position: relative;
     -webkit-transition: all 0.4s cubic-bezier(0.55, 0, 0.55, 0.2);
-    transition: all 4s cubic-bezier(0.55, 0, 0.55, 0.2);
+    transition: all 0.4s cubic-bezier(0.55, 0, 0.55, 0.2);
     opacity: 1;
     margin-top: 0;
     padding-top: 5px;
