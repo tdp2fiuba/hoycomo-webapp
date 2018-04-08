@@ -1,6 +1,6 @@
 # NodeJS depende
 node_modules/
-
+bower_components/
 #Logs
 src/logs/log_file.log
 src/logs/*.log
