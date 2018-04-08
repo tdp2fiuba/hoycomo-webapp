@@ -1,8 +1,20 @@
-app.controller('LoginCtrl', function($scope) {
-    $scope.isSubmitted = false;
+app.controller('LoginCtrl', function($scope, loginService) {
+    var self = this;
+    self.isSubmitted = false;
+    self.user = null;
+    self.password = null;
 
-    $scope.handleSubmit = function () {
-        alert("Submitted");
-        $scope.isSubmitted = true;
+    self.handleSubmit = function () {
+        self.errorMessage = null;
+        self.isSubmitted = true;
+        loginService.login({ user: self.user, password: self.password })
+                    .then(function (account) {
+                        self.isSubmitted = false;
+                        //alert("Success " + account);
+                    })
+                    .catch(function (err) {
+                        self.isSubmitted = false;
+                        self.errorMessage = err.data.message;
+                    })
     }
 })
