@@ -3,8 +3,13 @@
     
     angular.module('BlurAdmin').provider('credentialsService', function () {
 
-        this.$get = function ($http, $cookies) {
+        this.$get = function ($http, $cookies, $window) {
             var userCredentials = $cookies.get('hoyComoComercioUser');
+
+            if (!userCredentials) {
+                
+                $window.location.href = $window.location.origin + "/auth.html";
+            }
 
             var login = function (credentials) {
                 return $http({
@@ -18,8 +23,7 @@
             }
         
             return {
-                login: login,
-                isLoggedIn: !!userCredentials
+                login: login
             }
         }
     });
