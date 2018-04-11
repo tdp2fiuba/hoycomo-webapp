@@ -23,6 +23,7 @@ gulp.task('inject', ['scripts', 'styles', 'injectAuth', 'inject404', 'copyVendor
 
   var injectScripts = gulp.src([
     path.join(conf.paths.src, '/assets/js/**/*.js'),
+    path.join(conf.paths.src, '/shared/**/*.js'),
     path.join(conf.paths.src, '/app/**/*.module.js'),
     path.join(conf.paths.src, '/app/**/*.js'),
     path.join('!' + conf.paths.src, '/app/**/*.spec.js'),
@@ -50,10 +51,8 @@ gulp.task('injectAuth', ['scripts', 'stylesAuth'], function () {
 
   var injectScripts = gulp.src([
     path.join(conf.paths.src, '/assets/js/**/*.js'),
-    path.join(conf.paths.src, '/app/**/*.module.js'),
-    path.join(conf.paths.src, '/app/**/*.js'),
-    path.join('!' + conf.paths.src, '/app/**/*.spec.js'),
-    path.join('!' + conf.paths.src, '/app/**/*.mock.js'),
+    path.join(conf.paths.src, '/shared/**/*.js'),
+    path.join(conf.paths.src, '/login/**/*.js'),
   ])
 
   var injectOptions = {

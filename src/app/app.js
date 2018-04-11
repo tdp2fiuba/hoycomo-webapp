@@ -15,6 +15,6 @@ angular.module('BlurAdmin', [
   'angular-progress-button-styles',
   'BlurAdmin.theme',
   'BlurAdmin.pages',
-  'BlurAdmin.login',
-  'ngCookies'
+  'ngCookies',
+  'sharedServices'
 ]);

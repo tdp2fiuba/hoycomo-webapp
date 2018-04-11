@@ -36,7 +36,7 @@ function browserSyncInit(baseDir, browser) {
   // server.middleware = proxyMiddleware('/users', {target: 'http://jsonplaceholder.typicode.com', changeOrigin: true});
 
   browserSync.instance = browserSync.init({
-    startPath: '/',
+    startPath: '/auth.html',
     server: server,
     browser: browser,
     ghostMode: false

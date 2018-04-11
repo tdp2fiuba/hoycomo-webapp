@@ -34,8 +34,8 @@
       <div class="form-group">
         <label for="user" class="col-sm-2 control-label">Usuario</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="user" ng-model="user" placeholder="Usuario">
-          <div ng-messages="loginForm.user.$error" ng-if="loginForm.user.$dirty">
+          <input type="text" required class="form-control" name="user" ng-model="ctrl.user" placeholder="Usuario">
+          <div ng-messages="loginForm.user.$error" ng-if="loginForm.user.$touched" class="formValidationMessage">
               <div ng-message="required">Este campo es requerido</div>
           </div>
         </div>
@@ -44,14 +44,17 @@
         <label for="password" class="col-sm-2 control-label">Contraseña</label>
         <div class="col-sm-10">
           <input required type="password" class="form-control" ng-model="ctrl.password" name="password" placeholder="Contraseña">
-          <div ng-messages="loginForm.password.$error" ng-if="loginForm.password.$dirty">
+          <div ng-messages="loginForm.password.$error" ng-if="loginForm.password.$touched" class="formValidationMessage">
               <div ng-message="required">Este campo es requerido</div>
           </div>
         </div>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-default btn-auth">Ingresar</button>
+          <button type="submit" class="btn btn-primary btn-with-icon" 
+                  ng-disabled="ctrl.isSubmitted">
+                  <i ng-show="ctrl.isSubmitted" class="fa fa-refresh fa-spin"></i>
+                  Ingresar</button>
         </div>
       </div>
     </form>
@@ -73,5 +76,6 @@
 <!-- angular templates will be automatically converted in js and inserted here -->
 <!-- endinject -->
 <!-- endbuild -->
+<script src=""></script>
 </body>
 </html>

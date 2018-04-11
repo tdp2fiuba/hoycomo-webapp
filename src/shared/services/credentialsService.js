@@ -1,14 +1,14 @@
 (function() {
     'use strict';
     
-    angular.module('BlurAdmin').provider('credentialsService', function () {
+    angular.module('sharedServices').provider('credentialsService', function () {
 
         this.$get = function ($http, $cookies, $window) {
             var userCredentials = $cookies.get('hoyComoComercioUser');
 
             if (!userCredentials) {
                 
-                $window.location.href = $window.location.origin + "/auth.html";
+                // $window.location.href = $window.location.origin + "/auth.html";
             }
 
             var login = function (credentials) {

@@ -16,6 +16,15 @@ body {
 
 $text-color: #ffffff;
 
+.formValidationMessage {
+  div {
+    margin-top: 5px;
+    margin-left: 5px;
+    color: rgb(221,44,0);
+    font-weight: $font-normal;
+  }
+}
+
 .form-control, .form-control:focus {
   @include placeholderStyle($text-color, 0.9);
   background-color: rgba(0, 0, 0, .4);
@@ -37,11 +46,12 @@ $text-color: #ffffff;
   width: 540px;
   margin: 0 auto;
   border-radius: 5px;
-  @include bg-translucent-dark(0.55);
-  color: #fff;
+
+  background-color: white;
+  color: #666666;
   padding: 32px;
   h1 {
-    font-weight: $font-light;
+    font-weight: $font-bold;
     text-align: center;
   }
   h2 {
@@ -66,7 +76,7 @@ $text-color: #ffffff;
 
   .control-label {
     padding-top: 11px;
-    color: $text-color;
+    color: #666666;
   }
 
   .form-group {
