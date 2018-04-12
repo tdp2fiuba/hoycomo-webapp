@@ -6,6 +6,7 @@
         this.$get = function ($http) {
             var addItem = function (menuItem) {
                 console.error("REPLACE WITH CALL TO API");
+                // TODO: Implement call to API.
                 /*
                 return $http({
                         method: 'POST',
