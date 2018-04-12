@@ -15,6 +15,7 @@
     'BlurAdmin.pages.tables',
     'BlurAdmin.pages.charts',
     'BlurAdmin.pages.maps',
+    'BlurAdmin.pages.menu',
     'BlurAdmin.pages.profile',
     'BlurAdmin.pages.currentDashboard'
   ])
