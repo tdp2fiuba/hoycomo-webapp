@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('BlurAdmin.pages.menu', [])
+    angular.module('BlurAdmin.pages.menu', ['ng', 'ngAnimate', 'ngMessages', 'toastr'])
         .config(routeConfig);
 
     /** @ngInject */

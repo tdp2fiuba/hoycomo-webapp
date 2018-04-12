@@ -15,43 +15,12 @@ h3.with-line {
   }
 }
 
-.menu-block {
-  background: $default;
-
-  .nav-tabs > li {
-    & > a {
-      border-radius: 0;
-      transition: background, 0s, ease !important;
-    }
-  }
-
-  .progress {
-    border-radius: 0;
-    margin-bottom: 6px;
-  }
-
-  .progress-info {
-    margin-bottom: 8px;
-    margin-top: -2px;
-  }
-
-  .tab-content {
-    padding: 15px 15px 25px;
-  }
-
-  .progress-bar-primary {
-    background-color: $primary-light;
-  }
-
-  .form-group {
-    margin-bottom: 14px;
-    label {
-      text-align: right;
-    }
-  }
-
-  .form-control {
-    font-size: 13px;
+.form-validation-msg {
+  div {
+    margin-top: 5px;
+    margin-left: 5px;
+    color: rgb(221,44,0);
+    font-weight: $font-normal;
   }
 }
 
@@ -86,6 +55,13 @@ h3.with-line {
     }
     input{
       font-weight: $font-light;
+    }
+    input[type="file"] {
+      display: none;
+    }
+    .btn-load-image {
+      color: #FFFFFF;
+      font-weight: 400;
     }
   }
 }

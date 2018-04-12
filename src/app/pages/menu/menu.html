@@ -5,13 +5,19 @@
             <div class="form-group">
                 <label for="inputName" class="col-sm-2 control-label">Nombre</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" required id="inputName">
+                    <input type="text" required class="form-control" id="inputName" name="itemName">
+                    <div ng-messages="newMenuItem.itemName.$error" ng-if="newMenuItem.itemName.$touched" class="form-validation-msg">
+                        <div ng-message="required">El nombre del plato es requerido</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputPrice" class="col-sm-2 control-label">Precio</label>
                 <div class="col-sm-2">
-                    <input type="number" class="form-control" required id="inputPrice" placeholder="$" min="0">
+                    <input type="number" required class="form-control" id="inputPrice" name="itemPrice" placeholder="$" min="0">
+                    <div ng-messages="newMenuItem.itemPrice.$error" ng-if="newMenuItem.itemPrice.$touched" class="form-validation-msg">
+                        <div ng-message="required">El precio del plato es requerido</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -21,8 +27,27 @@
                 </div>
             </div>
             <div class="form-group">
+                <label for="inputPictures" class="col-sm-2 control-label">Fotos</label>
+                <div class="col-sm-2">
+                    <label class="btn btn-warning btn-load-image">
+                        Agregar foto
+                        <input type="file" id="inputPictures" accept="image/*" fileinput="file" filepreview="filepreview" />
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <span class="col-sm-2 control-label"></span>
+                <div class="col-sm-4">
+                    <img ng-src="{{filepreview}}" class="img-responsive" ng-show="filepreview"/>
+                </div>
+            </div>
+            <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-warning">Guardar plato</button>
+                    <button type="submit" class="btn btn-primary btn-with-icon"
+                            ng-disabled="ctrl.isSubmitted">
+                            <i ng-show="ctrl.isSubmitted" class="fa fa-refresh fa-spin"></i>
+                            Guardar plato
+                    </button>
                 </div>
             </div>
         </form>
