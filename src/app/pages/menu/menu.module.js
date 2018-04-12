@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('BlurAdmin.pages.menu', ['ng', 'ngAnimate', 'ngMessages', 'toastr'])
+    angular.module('BlurAdmin.pages.menu', [])
         .config(routeConfig);
 
     /** @ngInject */
@@ -11,6 +11,7 @@
                 url: '/menu',
                 title: 'Mi Menú',
                 templateUrl: 'app/pages/menu/menu.html',
+                controller: 'MenuController',
                 sidebarMeta: {
                     order: 0
                 }

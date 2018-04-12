@@ -1,10 +1,15 @@
-angular.module('BlurAdmin.pages.menu')
-    .controller('NewMenuItemController', function ($scope, $window, toastr, toastrConfig) {
-        var self = this;
-        self.isSubmitted = false;
-        self.user = null;
-        self.password = null;
-        self.toastOptions = {
+(function () {
+    'use strict';
+
+    angular.module('BlurAdmin.pages.menu')
+        .controller('MenuController', MenuController);
+
+    /** @ngInject */
+    function MenuController($scope, toastr, toastrConfig) {
+        $scope.isSubmitted = false;
+        $scope.itemName = null;
+        $scope.itemPrice = null;
+        $scope.toastOptions = {
             autoDismiss: false,
             positionClass: 'toast-top-left',
             type: 'error',
@@ -19,9 +24,14 @@ angular.module('BlurAdmin.pages.menu')
             preventDuplicates: false,
             preventOpenDuplicates: false,
             title: "Error en la carga del nuevo ítem para el menú"
-          };
-        self.submit = function () {
-            self.toastOptions.msg = null;
-            self.isSubmitted = true;
+        };
+
+        $scope.handleSubmit = function () {
+            $scope.isSubmitted = true;
+            $scope.toastOptions.msg = null;
+
+            // TODO: Implement!
         }
-    });
+    }
+
+})();
