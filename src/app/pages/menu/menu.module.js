@@ -12,6 +12,7 @@
                 title: 'Mi Menú',
                 templateUrl: 'app/pages/menu/menu.html',
                 controller: 'MenuController',
+                provider: 'MenuController',
                 sidebarMeta: {
                     order: 0
                 }

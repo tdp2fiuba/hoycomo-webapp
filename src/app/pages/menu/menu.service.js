@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     
-    angular.module('sharedServices').provider('MenuService', function () {
+    angular.module('BlurAdmin.pages.menu').provider('MenuService', function () {
 
         this.$get = function ($http) {
             var addItem = function (menuItem) {
