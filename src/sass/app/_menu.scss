@@ -1,0 +1,92 @@
+h3.with-line {
+  border-bottom: 1px solid $border;
+  color: $default-text;
+  font-weight: $font-normal;
+  padding-top: 30px;
+  margin-bottom: 14px;
+  line-height: 39px;
+  width: 100%;
+}
+
+.panel .panel-body h3 {
+  &.with-line {
+    margin-bottom: 14px;
+    margin-top: 0;
+  }
+}
+
+.menu-block {
+  background: $default;
+
+  .nav-tabs > li {
+    & > a {
+      border-radius: 0;
+      transition: background, 0s, ease !important;
+    }
+  }
+
+  .progress {
+    border-radius: 0;
+    margin-bottom: 6px;
+  }
+
+  .progress-info {
+    margin-bottom: 8px;
+    margin-top: -2px;
+  }
+
+  .tab-content {
+    padding: 15px 15px 25px;
+  }
+
+  .progress-bar-primary {
+    background-color: $primary-light;
+  }
+
+  .form-group {
+    margin-bottom: 14px;
+    label {
+      text-align: right;
+    }
+  }
+
+  .form-control {
+    font-size: 13px;
+  }
+}
+
+.notification {
+  .form-group {
+    label {
+      text-align: left;
+      padding-left: 26px;
+    }
+  }
+}
+
+.save-menu {
+  margin: 23px 0 12px 12px;
+}
+
+.close {
+  opacity: 1;
+  box-shadow: none;
+  outline: none !important;
+  &:hover, &:focus, &:active {
+    opacity: 1;
+  }
+}
+
+.menu-page {
+  .form-group {
+    label {
+      line-height: 34px;
+      font-size: 14px;
+      font-weight: $font-light;
+    }
+    input{
+      font-weight: $font-light;
+    }
+  }
+}
+
