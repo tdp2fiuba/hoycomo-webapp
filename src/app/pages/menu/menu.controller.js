@@ -5,10 +5,12 @@
         .controller('MenuController', MenuController);
 
     /** @ngInject */
-    function MenuController($scope, toastr, toastrConfig) {
+    function MenuController($scope, $window, toastr, toastrConfig, MenuService) {
         $scope.isSubmitted = false;
         $scope.itemName = null;
         $scope.itemPrice = null;
+        $scope.itemDiscount = 0;
+        $scope.itemPictures = [];
         $scope.toastOptions = {
             autoDismiss: false,
             positionClass: 'toast-top-left',
@@ -30,7 +32,27 @@
             $scope.isSubmitted = true;
             $scope.toastOptions.msg = null;
 
-            // TODO: Implement!
+            var item = {
+                name: $scope.itemName,
+                price: $scope.itemPrice,
+                discount: $scope.itemDiscount,
+                pictures: $scope.itemPictures
+            };
+            MenuService.addItem(item)
+                .then(function (res) {
+                    $scope.isSubmitted = false;
+                    $window.location.href = $window.location.origin + "/";
+                })
+                .catch(function (err) {
+                    $scope.isSubmitted = false;
+                    if (err.data) {
+                        $scope.toastOptions.msg = err.data.message;
+                    } else {
+                        $scope.toastOptions.msg = "Hubo un error contactándose con el servidor. Intente nuevamente..."
+                    }
+                    angular.extend(toastrConfig, $scope.toastOptions);
+                    toastr["error"]($scope.toastOptions.msg, $scope.toastOptions.title);
+                });
         }
     }
 
