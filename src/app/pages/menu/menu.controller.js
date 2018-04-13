@@ -2,7 +2,27 @@
     'use strict';
 
     angular.module('BlurAdmin.pages.menu')
-        .controller('MenuController', MenuController);
+        .controller('MenuController', MenuController)
+        .directive("fileinput", [function() {
+            return {
+                scope: {
+                    fileinput: "=",
+                    filepreview: "="
+                },
+                link: function(scope, element, attributes) {
+                    element.bind("change", function(changeEvent) {
+                        scope.fileinput = changeEvent.target.files[0];
+                        var reader = new FileReader();
+                        reader.onload = function(loadEvent) {
+                            scope.$apply(function() {
+                                scope.filepreview = loadEvent.target.result;
+                            });
+                        };
+                        reader.readAsDataURL(scope.fileinput);
+                    });
+                }
+            }
+        }]);
 
     /** @ngInject */
     function MenuController($scope, $window, toastr, toastrConfig, MenuService) {
@@ -10,7 +30,6 @@
         $scope.itemName = null;
         $scope.itemPrice = null;
         $scope.itemDiscount = 0;
-        $scope.itemPictures = [];
         $scope.toastOptions = {
             autoDismiss: false,
             positionClass: 'toast-top-left',
@@ -29,31 +48,33 @@
         };
 
         $scope.handleSubmit = function () {
-            $scope.isSubmitted = true;
-            $scope.toastOptions.msg = null;
+            var self = this;
+            self.isSubmitted = true;
+            self.toastOptions.msg = null;
 
             var item = {
-                name: $scope.itemName,
-                price: $scope.itemPrice,
-                discount: $scope.itemDiscount,
-                pictures: $scope.itemPictures
+                name: self.itemName,
+                price: self.itemPrice,
+                discount: self.itemDiscount,
+                pictures: self.filepreview
             };
+
             MenuService.addItem(item)
                 .then(function (res) {
-                    $scope.isSubmitted = false;
+                    self.isSubmitted = false;
                     $window.location.href = $window.location.origin + "/";
                 })
                 .catch(function (err) {
-                    $scope.isSubmitted = false;
+                    self.isSubmitted = false;
                     if (err.data) {
-                        $scope.toastOptions.msg = err.data.message;
+                        self.toastOptions.msg = err.data.message;
                     } else {
-                        $scope.toastOptions.msg = "Hubo un error contactándose con el servidor. Intente nuevamente..."
+                        self.toastOptions.msg = "Hubo un error contactándose con el servidor. Intente nuevamente..."
                     }
-                    angular.extend(toastrConfig, $scope.toastOptions);
-                    toastr["error"]($scope.toastOptions.msg, $scope.toastOptions.title);
+                    angular.extend(toastrConfig, self.toastOptions);
+                    toastr["error"](self.toastOptions.msg, self.toastOptions.title);
                 });
-        }
+        };
     }
 
 })();
