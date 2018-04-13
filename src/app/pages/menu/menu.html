@@ -35,14 +35,14 @@
                 <div class="col-sm-2">
                     <label class="btn btn-warning btn-load-image">
                         Agregar foto
-                        <input type="file" id="inputPictures" accept="image/*" fileinput="file" filepreview="filepreview" />
+                        <input type="file" id="inputPictures" accept="image/*" fileinput="files" filepreviews="filepreviews" item-files="itemFiles" multiple />
                     </label>
                 </div>
             </div>
             <div class="form-group">
                 <span class="col-sm-2 control-label"></span>
-                <div class="col-sm-2">
-                    <img ng-src="{{filepreview}}" class="img-responsive" ng-show="filepreview"/>
+                <div class="col-sm-3" ng-repeat="filepreview in filepreviews">
+                    <img ng-src="{{filepreviews[$index]}}" class="img-responsive" ng-show="filepreview"/>
                 </div>
             </div>
             <div class="form-group">

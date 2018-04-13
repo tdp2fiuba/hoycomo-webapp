@@ -3,22 +3,51 @@
 
     angular.module('BlurAdmin.pages.menu')
         .controller('MenuController', MenuController)
-        .directive("fileinput", [function() {
+        .directive("fileinput", ['$parse', function($parse) {
             return {
                 scope: {
                     fileinput: "=",
-                    filepreview: "="
+                    filepreviews: "=",
+                    itemFiles: "="
                 },
-                link: function(scope, element, attributes) {
+                link: function(scope, element, attrs) {
+                    var model = $parse(attrs.fileinput);
+                    var isMultiple = attrs.multiple;
+                    var modelSetter = model.assign;
                     element.bind("change", function(changeEvent) {
-                        scope.fileinput = changeEvent.target.files[0];
-                        var reader = new FileReader();
-                        reader.onload = function(loadEvent) {
-                            scope.$apply(function() {
-                                scope.filepreview = loadEvent.target.result;
-                            });
-                        };
-                        reader.readAsDataURL(scope.fileinput);
+                        var values = [];
+                        angular.forEach(element[0].files, function (item) {
+                            var value = {
+                                // File Name
+                                name: item.name,
+                                //File Size
+                                size: item.size,
+                                //File URL to view
+                                url: URL.createObjectURL(item),
+                                // File Input Value
+                                _file: item
+                            };
+                            values.push(value);
+                        });
+                        scope.$apply(function () {
+                            if (isMultiple) {
+                                modelSetter(scope, values);
+                            } else {
+                                modelSetter(scope, values[0]);
+                            }
+                            scope.itemFiles.push(values);
+                        });
+
+                        scope.fileinput = changeEvent.target.files;
+                        for (let i = 0; i < scope.fileinput.length; i++) {
+                            var reader = new FileReader();
+                            reader.onload = function(loadEvent) {
+                                scope.$apply(function() {
+                                    scope.filepreviews.push(loadEvent.target.result);
+                                });
+                            };
+                            reader.readAsDataURL(scope.fileinput[i]);
+                        }
                     });
                 }
             }
@@ -30,6 +59,8 @@
         $scope.itemName = null;
         $scope.itemPrice = null;
         $scope.itemDiscount = 0;
+        $scope.itemFiles = [];
+        $scope.filepreviews = [];
         $scope.toastOptions = {
             autoDismiss: false,
             positionClass: 'toast-top-left',
@@ -56,7 +87,7 @@
                 name: self.itemName,
                 price: self.itemPrice,
                 discount: self.itemDiscount,
-                pictures: self.filepreview
+                pictures: self.itemFiles
             };
 
             MenuService.addItem(item)
