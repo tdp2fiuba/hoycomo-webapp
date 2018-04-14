@@ -62,7 +62,7 @@
         $scope.isSubmitted = false;
         $scope.itemName = null;
         $scope.itemPrice = null;
-        $scope.itemDiscount = 0;
+        $scope.itemDiscount = null;
         $scope.itemFiles = [];
         $scope.filepreviews = [];
         $scope.toastOptions = {
@@ -84,6 +84,12 @@
 
         $scope.showNewItemForm = function (show) {
             $scope.newItemFormActive = show;
+        };
+
+        $scope.resetNewItemForm = function () {
+            $scope.itemFiles = [];
+            $scope.filepreviews = [];
+            document.getElementById("newMenuItemForm").reset();
         };
 
         $scope.retrieveMenu = function () {
@@ -118,18 +124,14 @@
             var item = {
                 name: self.itemName,
                 price: self.itemPrice,
-                discount: self.itemDiscount,
+                discount: self.itemDiscount | 0,
                 pictures: self.itemFiles
             };
 
             MenuService.addItem(item)
                 .then(function (res) {
                     self.isSubmitted = false;
-                    self.itemName = null;
-                    self.itemPrice = null;
-                    self.itemDiscount = 0;
-                    self.itemFiles = [];
-                    self.filepreviews = [];
+                    self.resetNewItemForm();
 
                     self.noItems = false;
                     self.retrieveMenu();
@@ -138,12 +140,7 @@
                 })
                 .catch(function (err) {
                     self.isSubmitted = false;
-                    self.isSubmitted = false;
-                    self.itemName = null;
-                    self.itemPrice = null;
-                    self.itemDiscount = 0;
-                    self.itemFiles = [];
-                    self.filepreviews = [];
+                    self.resetNewItemForm();
 
                     self.showNewItemForm(false);
                     if (err.data) {

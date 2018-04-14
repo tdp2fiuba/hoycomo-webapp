@@ -14,7 +14,10 @@
   }
 
   .menu-item {
-    margin-bottom: 24px;
+    .price {
+      margin-bottom: 24px;
+      color: $primary;
+    }
   }
 
   .form-group {

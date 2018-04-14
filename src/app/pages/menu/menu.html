@@ -4,13 +4,17 @@
         <div ng-show="!newItemFormActive">
             <div ng-show="noItems">
                 <h3>No ha agregado platos a su menú</h3>
+                <hr />
                 <h5>Haga click en "Nuevo" para cargar su primer plato</h5>
             </div>
             <div ng-show="!noItems">
                 <h3>Menú</h3>
                 <div ng-repeat="item in menu">
                     <hr ng-if="$first" />
-                    <label class="menu-item">{{item.name}}</label>
+                    <div class="menu-item">
+                        <label class="col-xs-12 col-sm-12 col-md-12">{{item.name}}</label>
+                        <label class="col-xs-12 col-sm-12 col-md-12 price">${{item.price}}</label>
+                    </div>
                 </div>
             </div>
             <button class="btn btn-primary" ng-click="showNewItemForm(true)">Nuevo</button>
@@ -18,7 +22,7 @@
 
         <div ng-show="newItemFormActive">
             <h3>Nuevo ítem del Menú</h3>
-            <form class="form-horizontal" name="newMenuItemForm" novalidate ng-submit="newMenuItemForm.$valid && handleSubmit()">
+            <form class="form-horizontal" name="newMenuItemForm" id="newMenuItemForm" novalidate ng-submit="newMenuItemForm.$valid && handleSubmit()">
                 <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Nombre</label>
                     <div class="col-sm-6">
