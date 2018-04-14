@@ -55,6 +55,10 @@
 
     /** @ngInject */
     function MenuController($scope, $window, toastr, toastrConfig, MenuService) {
+        $scope.menu = [];
+        $scope.noItems = true;
+        $scope.newItemFormActive = false;
+
         $scope.isSubmitted = false;
         $scope.itemName = null;
         $scope.itemPrice = null;
@@ -78,6 +82,34 @@
             title: "Error en la carga del nuevo ítem para el menú"
         };
 
+        $scope.showNewItemForm = function (show) {
+            $scope.newItemFormActive = show;
+        };
+
+        $scope.retrieveMenu = function () {
+            let self = this;
+            MenuService.getItems()
+                .then(function (res) {
+                    if (res && Array.isArray(res) && res.length > 0) {
+                        self.noItems = false;
+
+                        // TODO: Transform response.
+                        self.menu = res;
+                        self.$apply();
+                    }
+                })
+                .catch(function (err) {
+                    self.noItems = true;
+                    if (err.data) {
+                        self.toastOptions.msg = err.data.message;
+                    } else {
+                        self.toastOptions.msg = "Hubo un error contactándose con el servidor. Intente nuevamente..."
+                    }
+                    angular.extend(toastrConfig, self.toastOptions);
+                    toastr["error"](self.toastOptions.msg, self.toastOptions.title);
+                });
+        };
+
         $scope.handleSubmit = function () {
             var self = this;
             self.isSubmitted = true;
@@ -93,10 +125,27 @@
             MenuService.addItem(item)
                 .then(function (res) {
                     self.isSubmitted = false;
-                    $window.location.href = $window.location.origin + "/";
+                    self.itemName = null;
+                    self.itemPrice = null;
+                    self.itemDiscount = 0;
+                    self.itemFiles = [];
+                    self.filepreviews = [];
+
+                    self.noItems = false;
+                    self.retrieveMenu();
+                    self.showNewItemForm(false);
+                    self.$apply();
                 })
                 .catch(function (err) {
                     self.isSubmitted = false;
+                    self.isSubmitted = false;
+                    self.itemName = null;
+                    self.itemPrice = null;
+                    self.itemDiscount = 0;
+                    self.itemFiles = [];
+                    self.filepreviews = [];
+
+                    self.showNewItemForm(false);
                     if (err.data) {
                         self.toastOptions.msg = err.data.message;
                     } else {
@@ -106,6 +155,8 @@
                     toastr["error"](self.toastOptions.msg, self.toastOptions.title);
                 });
         };
+
+        $scope.retrieveMenu();
     }
 
 })();

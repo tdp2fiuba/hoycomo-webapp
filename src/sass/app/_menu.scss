@@ -9,6 +9,14 @@
 }
 
 .menu-page {
+  h3 {
+    color: $primary;
+  }
+
+  .menu-item {
+    margin-bottom: 24px;
+  }
+
   .form-group {
     label {
       line-height: 34px;
