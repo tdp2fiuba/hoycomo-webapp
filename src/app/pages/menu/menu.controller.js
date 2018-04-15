@@ -17,17 +17,7 @@
                     element.bind("change", function(changeEvent) {
                         var values = [];
                         angular.forEach(element[0].files, function (item) {
-                            var value = {
-                                // File Name
-                                name: item.name,
-                                //File Size
-                                size: item.size,
-                                //File URL to view
-                                url: URL.createObjectURL(item),
-                                // File Input Value
-                                _file: item
-                            };
-                            values.push(value);
+                            values.push(item);
                         });
                         scope.$apply(function () {
                             if (isMultiple) {
@@ -35,7 +25,9 @@
                             } else {
                                 modelSetter(scope, values[0]);
                             }
-                            scope.itemFiles.push(values);
+                            for (let i in values) {
+                                scope.itemFiles.push(values[i]);
+                            }
                         });
 
                         scope.fileinput = changeEvent.target.files;
@@ -96,12 +88,9 @@
             let self = this;
             MenuService.getItems()
                 .then(function (res) {
-                    if (res && Array.isArray(res) && res.length > 0) {
+                    if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
                         self.noItems = false;
-
-                        // TODO: Transform response.
-                        self.menu = res;
-                        self.$apply();
+                        self.menu = res.data;
                     }
                 })
                 .catch(function (err) {
@@ -136,7 +125,6 @@
                     self.noItems = false;
                     self.retrieveMenu();
                     self.showNewItemForm(false);
-                    self.$apply();
                 })
                 .catch(function (err) {
                     self.isSubmitted = false;

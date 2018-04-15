@@ -5,31 +5,39 @@
 
         this.$get = function ($http) {
 
-            // TODO: Delete this static array.
-            let menu = [];
+            const BASE_URL = 'https://hoycomo-server.herokuapp.com/api';
 
             const getItems = function () {
-                console.error("REPLACE WITH CALL TO API FOR RETRIEVING MENU");
-                // TODO: Implement call to API.
-                return Promise.resolve(menu);
+                let storeId = 1;    // TODO: Retrieve actual storeId from credentialsService.
+
+                const url = BASE_URL + '/dish/store/' + storeId;
+                return $http({
+                    method: 'GET',
+                    url: url,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
             };
 
             const addItem = function (menuItem) {
-                console.error("REPLACE WITH CALL TO API FOR SAVING NEW ITEM IN MENU");
-                // TODO: Implement call to API.
-                menu.push(menuItem);
-                return Promise.resolve(menuItem);
+                let storeId = 1;    // TODO: Retrieve actual storeId from credentialsService.
 
-                /*
+                menuItem.store_id = storeId;
+                let data = {
+                    dish: menuItem,
+                    pictures: menuItem.pictures     // TODO: This should be inside dish object.
+                };
+
+                const url = BASE_URL + '/dish';
                 return $http({
                         method: 'POST',
-                        url: 'http://localhost:8080/api/menu',
+                        url: url,
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        data: menuItem
+                        data: data
                 });
-                */
             };
         
             return {
