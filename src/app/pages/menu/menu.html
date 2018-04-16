@@ -26,7 +26,7 @@
 
         <div ng-show="newItemFormActive">
             <h3>Nuevo ítem del Menú</h3>
-            <form class="form-horizontal" name="newMenuItemForm" id="newMenuItemForm" novalidate ng-submit="newMenuItemForm.$valid && handleSubmit()">
+            <form class="form-horizontal" ng-init="setFormScope(this)" name="newMenuItemForm" id="newMenuItemForm" novalidate ng-submit="newMenuItemForm.$valid && handleSubmit()">
                 <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Nombre</label>
                     <div class="col-sm-6">

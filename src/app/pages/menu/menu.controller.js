@@ -73,9 +73,16 @@
             $scope.newItemFormActive = show;
         };
 
+        $scope.setFormScope = function (form) {
+            $scope.formScope = form;
+        }
         $scope.resetNewItemForm = function () {
             $scope.filepreviews = [];
-            document.getElementById("newMenuItemForm").reset();
+            $scope.formScope.itemName = null;
+            $scope.formScope.itemPrice = null;
+            $scope.formScope.itemDiscount = null;
+            $scope.formScope.newMenuItemForm.$setPristine();
+            $scope.formScope.newMenuItemForm.$setUntouched();
         };
 
         $scope.retrieveMenu = function () {
