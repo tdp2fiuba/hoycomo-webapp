@@ -3,13 +3,12 @@
     
     angular.module('BlurAdmin.pages.menu').provider('MenuService', function () {
 
-        this.$get = function ($http) {
+        this.$get = function ($http, credentialsService) {
 
             const BASE_URL = 'https://hoycomo-server.herokuapp.com/api';
 
             const getItems = function () {
-                let storeId = 3;    // TODO: Retrieve actual storeId from credentialsService.
-
+                let storeId = credentialsService.getUser();
                 const url = BASE_URL + '/dish/store/' + storeId;
                 return $http({
                     method: 'GET',
@@ -21,7 +20,7 @@
             };
 
             const addItem = function (menuItem) {
-                let storeId = 3;    // TODO: Retrieve actual storeId from credentialsService.
+                let storeId = credentialsService.getUser();
                 menuItem.store_id = storeId;
 
                 const url = BASE_URL + '/dish';
