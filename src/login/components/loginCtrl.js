@@ -20,12 +20,14 @@ angular.module('BlurAdmin.login')
             preventOpenDuplicates: false,
             title: "Error en el inicio de sesión"
           };
+        self.credentialsService = credentialsService;
         self.handleSubmit = function () {
             self.toastOptions.msg = null;
             self.isSubmitted = true;
-            credentialsService.login({ user: self.user, password: self.password })
+            self.credentialsService.login({ user: self.user, password: self.password })
                     .then(function (account) {
                         self.isSubmitted = false;
+                        self.credentialsService.saveProfileCookie(account.data.store_id);
                         $window.location.href = $window.location.origin + "/";
                     })
                     .catch(function (err) {

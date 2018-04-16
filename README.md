@@ -1,48 +1,95 @@
-[![Build Status](https://travis-ci.org/akveo/blur-admin.svg?branch=master)](https://travis-ci.org/akveo/blur-admin)
+# HoyComo: Backend Comercios
 
-# BlurAdmin Angular admin panel front-end framework
+## Instalación
 
-Customizable admin panel framework made with :heart: by [Akveo team](http://akveo.com/). Follow us on [Twitter](https://twitter.com/akveo_inc) to get latest news about this template first!
+### Herramientas 
 
-### Demo
-**[Mint version demo](http://akveo.com/blur-admin-mint/)**             |  **[Blur version demo](http://akveo.com/blur-admin/)**
-:-------------------------:|:-------------------------:
-![Mint version demo](http://i.imgur.com/A3TMviJ.png)  |  ![Blur version demo](http://i.imgur.com/EAoiK2O.jpg)
+Para instalar el ambiente, es necesario contar con los siguientes programas:
 
-## Angular 2 version
-Here you can find Angular2 based version: [ng2-admin](https://github.com/akveo/ng2-admin).
+* **Node.js** ([instalación](https://nodejs.org/en/download/current/))
+* **Bower** ([instalación](https://bower.io/#install-bower))
+* **MongoDB** ([instalación](https://www.mongodb.com/download-center#community))
 
-### Documentation
-Installation, customization and other useful articles: https://akveo.github.io/blur-admin/
+### Pasos para correr el programa
 
-*If you have problems installing and just want to download JS and css files, you can find download links here*: http://akveo.github.io/blur-admin/articles/091-downloads/
+Para correr el programa, desde una terminal ejecutar los siguientes comandos
 
-## How can I support developers?
-- Star our GitHub repo
-- Create pull requests, submit bugs, suggest new features or documentation updates
-- Follow us on [Twitter](https://twitter.com/akveo_inc)
-- Like our page on [Facebook](https://www.facebook.com/akveo/)
+````
+npm install
+bower install
+gulp serve
+````
+* `npm install` instalará las dependencias de `npm`, que se descargarán en la carpeta `node_modules`.
+* `bower install` instalará las dependencias de `bower`, que se descargarán en la carpeta `bower_compenents`
+* `gulp serve` creará y correrá el web-server, inyectando también las dependencias indicadas en cada página.
 
-## Can I hire you guys?
-Yes! We are available for hire. Visit [our homepage](http://akveo.com/) or simply leave us a note to contact@akveo.com. We will be happy to work with you!
+## Documentación
 
-## Features
-* Responsive layout
-* High resolution
-* Bootstrap CSS Framework
-* Sass
-* Gulp build
-* AngularJS
-* Jquery
-* Charts (amChart, Chartist, Chart.js, Morris)
-* Maps (Google, Leaflet, amMap)
-* etc
+### Web server
 
-License
--------------
-<a href=/LICENSE.txt target="_blank">MIT</a> license.
+* El web server es creado y ejecutado por Gulp con BrowserSync. El proceso puede encontrarse en `gulp/server.js`.
+* En la instancia de BrowserSync se determina cuál es la página de inicio:
 
-### From akveo
+````
+  browserSync.instance = browserSync.init({
+    startPath: '/auth.html',
+    server: server,
+    browser: browser,
+    ghostMode: false
+  });
+````
 
-Enjoy!
-We're always happy to hear your feedback.
+### Inyección de archivos estáticos
+
+* Las librerías utilizadas en la aplicación son descargadas a través de Bower
+* Esas librerías y todos los otros archivos estáticos (archivos CSS, HTML y JavaScript propios) son inyectados en cada página que sirve el servidor utilizando `gulp inject`. Este proceso se encuentra en el archivo `gulp/inject.js`, que se ejecuta dentro de `gulp serve`.
+* Puede declararse un conjunto de dependencias a inyectar dentro de un `gulp.task()`. Ejemplo:
+
+````
+gulp.task('injectAuth', ['scripts', 'stylesAuth'], function () {
+  var injectStyles = gulp.src([
+    path.join('!' + conf.paths.tmp, '/serve/app/vendor.css'), 
+    path.join(conf.paths.tmp, '/serve/app/auth.css')
+  ], {read: false});
+
+  var injectScripts = gulp.src([
+    path.join(conf.paths.src, '/assets/js/**/*.js'),
+    path.join(conf.paths.src, '/shared/**/*.js'),
+    path.join(conf.paths.src, '/login/**/*.js'),
+  ])
+
+  var injectOptions = {
+    ignorePath: [conf.paths.src, path.join(conf.paths.tmp, '/serve')],
+    addRootSlash: false
+  };
+
+  return gulp.src(path.join(conf.paths.src, '/auth.html'))
+    .pipe($.inject(injectStyles, injectOptions))
+    .pipe($.inject(injectScripts, injectOptions))
+    .pipe(wiredep(_.extend({}, conf.wiredep)))
+    .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve')));
+});
+````
+* Este comando indica que para el archivo `/auth.html`, se deben inyectar los siguientes archivos:
+  * Del tipo CSS, `vendor.css` y `auth.css`
+  * Del tipo JS: los cuales tengan una ruta del estilo `/assets/js/**/*.js`, `/shared/**/*.js` y `/login/**/*.js'`
+* Para incluir cada grupo de archivos, en el archivo HTML se incluye, por ejemplo:
+
+````
+ <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+ <!-- bower:css -->
+ <!-- endbower -->
+ <!-- endbuild -->
+````
+* Esto incluye el archivo `vendor.css` en el lugar donde se incluya este script.
+* Para más información, puede consultarse la [documentación](https://www.npmjs.com/package/gulp-inject) o [este artículo](https://stormpath.com/blog/angularjs-with-gulp-inject), entre otros.
+* *Inicialmente, a menos que se trabaje sobre una vista que no vaya a inyectarse en index.html, no es necesario especificar ningún comando de inyección nuevo, ya que el que existe para index.html automáticamente incluirá cualquier nuevo archivo HTML o JS dentro de /pages o /theme.*
+
+### Arquitectura
+
+TBD
+
+## Documentación BlurAdmin
+
+Algunos datos e información sobre BlurAdmin pueden encontrarse en: https://akveo.github.io/blur-admin/
+

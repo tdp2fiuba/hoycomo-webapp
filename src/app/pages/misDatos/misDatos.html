@@ -1,0 +1,108 @@
+<div ng-if="loading">
+    <h1>Cargando perfil...</h1>
+</div>
+<div ng-if="!loading">
+    <div ng-if="!profileLoaded && !showAddProfile" class="row show-grid fadeIf">
+        <div class="col-md-12">
+            <h1>Parece que aun no ha cargado su perfil</h1>
+            <h3>Haga click en el botón de abajo para completar sus datos</h3>
+        </div>
+        <div class="col-md-12">
+            <button type="button" class="btn btn-success btn-raised" ng-click="addProfile()">Agregar Perfil</button>
+        </div>
+    </div>
+    <div ng-if="profileLoaded" class="fadeIf">
+        <div class="row show-grid">
+            <div class="col-md-12">
+                <h2>{{ profile.name }}</h2>
+            </div>
+            <div class="col-md-4">
+                <h3>Horarios</h3>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-7">
+                <h3>Logo</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr class="black-muted-bg title-row">
+                                <td class="table-id">
+                                    Día
+                                </td>
+                                <td>
+                                    Horarios
+                                </td>
+                            </tr>
+                            <tr ng-repeat="day in availability">
+                                <td class="day-column">{{ day.parsedDay }}</th>
+                                <td class="time-column">{{ day.parseAvailabilityTime }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-7">
+                <div class="userpic userpic-wrapper" style="margin-top:10px;">
+                    <img ng-src="{{ logo }}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="showAddProfile" class="fadeIf">
+        <div class="row show-grid">
+            <div class="col-md-12">
+                <h2>Editar Perfil</h2>
+            </div>
+            <div class="col-md-6">
+                <h3>Horarios</h3>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h3>Logo</h3>
+            </div>
+        </div>
+        <div class="row row-eq-height" >
+            <div class="col-md-6 profileSliderRow">
+                <div class="row" ng-repeat="day in availability">
+                    <div class="col-md-2" style="vertical-align: middle;">
+                        {{ day.parsedDay }}
+                        {{ day.realData }}
+                    </div>
+                    <div class="col-md-10 slider-box">
+                        <ion-slider type="double"
+                            grid="true"
+                            values="sliderValues"
+                            disable="false"
+                            on-change="day.handleSliderChange">
+                        </ion-slider>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <div class="row" style="height:90%">
+                    <div class="userpic">
+                        <div class="userpic-wrapper" >
+                            <img ng-src="{{ logo }}"/>
+                        </div>
+                        <a href class="change-userpic" ng-click="uploadPicture()">Cambiar Foto de Perfil</a>
+                        <input type="file" ng-show="false" id="uploadFile" ng-file-select="onFileSelect($files)">
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn btn-primary btn-with-icon" ng-click="saveProfile()" ng-disabled="saving">
+                        <i ng-show="!saving" class="fa fa-save"></i>
+                        <i ng-show="saving" class="fa fa-refresh fa-spin"></i>
+                        Guardar Perfil
+                    </button>
+                </div>
+                
+            </div>
+        </div>      
+    </div>
+</div>
