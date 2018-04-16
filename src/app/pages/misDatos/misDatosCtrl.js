@@ -30,8 +30,7 @@
             newestOnTop: true,
             maxOpened: 0,
             preventDuplicates: false,
-            preventOpenDuplicates: false,
-            title: "Error guardando perfil"
+            preventOpenDuplicates: false
         };
 
         var defaultAvailability = [
@@ -44,23 +43,33 @@
             new DayAvailability("sunday", "00:00:00", '24:00:00')
         ];
 
-
         var mapAvailability = function () {
             return Object.keys($scope.profile.availability).map(function (day) {
                 var dayAvailability = $scope.profile.availability[day];
-                return new DayAvailability(day, dayAvailability.start_time, dayAvailability.end_time);
+                var startTime = dayAvailability.start_time ? dayAvailability.start_time : "00:00:00";
+                var endTime = dayAvailability.end_time ? dayAvailability.end_time : "24:00:00";
+                return new DayAvailability(day, startTime, endTime);
             });
         }
 
+        $scope.loadProfile = function () {
+            $scope.showAddProfile = false;
+            $scope.saving = false;
+            $scope.loading = true;
+            storeService.getStore(credentialsService.getUser()).then(function (data) {
+                $scope.loading = false;
+                $scope.profile = data.data;
+                $scope.profileLoaded = $scope.profile ? !!$scope.profile.availability.monday.start_time : false;
+                $scope.availability = $scope.profile.availability ? mapAvailability() : defaultAvailability.slice(0);
+                $scope.logo = $scope.profile.avatar ? $scope.profile.avatar : $filter('appImage')('theme/no-photo.png');
+            }).catch(function (err) {
+                $scope.loading = false;
+                console.log(err);
+            })
+        }
 
-
-        $scope.showAddProfile = false;
-        $scope.profile = credentialsService.getUser();
-        // $scope.profileLoaded = $scope.profile ? !!$scope.profile.availability : false;
-        $scope.profileLoaded = false;
-        $scope.availability = $scope.profile.availability ? mapAvailability() : defaultAvailability.slice(0);
-        $scope.logo = $filter('appImage')('theme/no-photo.png');
-        $scope.saving = false;
+        $scope.loadProfile();
+        
         $scope.addProfile = function () {
             $scope.showAddProfile = true;
         }
@@ -72,39 +81,51 @@
 
         $scope.getFile = function () {
             var currentScope = this;
-            fileReader.readAsDataUrl(currentScope.file, $scope)
-                .then(function (result) {
-                    $scope.logo = result;
-                });
+            if (currentScope.file.type.indexOf("image/") > -1) {
+                $scope.logoType = currentScope.file.type.replace("image/", "");
+                fileReader.readAsDataUrl(currentScope.file, $scope)
+                    .then(function (result) {
+                        $scope.logo = result;
+                    });
+            } else {
+                angular.extend(toastrConfig, toastOptions);
+                toastr["error"]("Tipo de archivo no permitido", "Error al subir logo");
+            }
         };
 
         $scope.saveProfile = function () {
-            var daysAvailability = {};
-            angular.forEach($scope.availability, function (day) {
-                daysAvailability[day.day] = {
-                    start_time: day.startTime,
-                    end_time: day.endTime
+            if ($scope.logoType) {
+                var daysAvailability = {};
+                angular.forEach($scope.availability, function (day) {
+                    daysAvailability[day.day] = {
+                        start_time: day.startTime,
+                        end_time: day.endTime
+                    }
+                });
+                var profile = {
+                    id: $scope.profile.id,
+                    name: $scope.profile.name,
+                    availability: daysAvailability,
+                    avatar: $scope.logo,
+                    avatarType: $scope.logoType
                 }
-            });
-            var profile = {
-                id: $scope.profile.store_id,
-                name: $scope.profile.name,
-                availability: daysAvailability,
-                avatar: $scope.logo
+                $scope.saving = true;
+                storeService.saveProfile(profile).then(function (data) {
+                    $scope.saving = false;
+                    $scope.profile.availability = profile.availability;
+                    $scope.profile.avatar = data.data.avatar;
+                    $scope.profileLoaded = true;
+                    $scope.showAddProfile = false;
+                    $scope.loadProfile();
+                }).catch(function (err) {
+                    $scope.saving = false;
+                    angular.extend(toastrConfig, toastOptions);
+                    toastr["error"]("Hubo un error intentando guardar el perfil. Intente nuevamente", "Error guardando perfil");
+                })
+            } else {
+              angular.extend(toastrConfig, toastOptions);
+              toastr["error"]("Debe elegir una nueva imagen desde su PC", "Error guardando perfil");
             }
-            $scope.saving = true;
-            storeService.saveProfile(profile).then(function (data) {
-                $scope.saving = false;
-                $scope.profile.availability = profile.availability;
-                $scope.profile.avatar = $scope.logo;
-                credentialsService.saveProfileCookie($scope.profile);
-                $scope.profileLoaded = true;
-            }).catch(function (err) {
-                toastOptions.msg = "Hubo un error intentando guardar el perfil. Intente nuevamente"
-                $scope.saving = false;
-                angular.extend(toastrConfig, toastOptions);
-                toastr["error"](toastOptions.msg, toastOptions.title);
-            })
         }
         function DayAvailability(day, startTime, endTime) {
             var self = this;

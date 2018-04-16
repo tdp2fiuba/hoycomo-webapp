@@ -4,23 +4,30 @@
     angular.module('BlurAdmin').service('storeService', storeService);
 
     function storeService($http) {
-        var parseToFormData = function (store) {
-            var formData = new FormData();
-            formData.append('store[name]', store.name);
-            formData.append('store[availability]', store.availability);
-            formData.append('store[avatar]', store.avatar);
-            return formData
-        }
         var saveProfile = function (store) {
             return $http({
                 method: 'PUT',
                 url: 'https://hoycomo-server.herokuapp.com/api/store/' + store.id,
-                data: parseToFormData(store)
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: { name: store.name, availability: store.availability, avatar: { data: store.avatar, type: store.avatarType } }
+            })
+        }
+
+        var getStore = function (store_id) {
+            return $http({
+                method: 'GET',
+                url: 'https://hoycomo-server.herokuapp.com/api/store/' + store_id,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
             })
         }
 
         return {
-            saveProfile: saveProfile
+            saveProfile: saveProfile,
+            getStore: getStore
         }
     }
 })();

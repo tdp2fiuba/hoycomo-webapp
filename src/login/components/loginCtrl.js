@@ -27,7 +27,7 @@ angular.module('BlurAdmin.login')
             self.credentialsService.login({ user: self.user, password: self.password })
                     .then(function (account) {
                         self.isSubmitted = false;
-                        self.credentialsService.saveProfileCookie(account.data);
+                        self.credentialsService.saveProfileCookie(account.data.store_id);
                         $window.location.href = $window.location.origin + "/";
                     })
                     .catch(function (err) {

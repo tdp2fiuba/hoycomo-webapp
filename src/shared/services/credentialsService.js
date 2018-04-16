@@ -4,9 +4,9 @@
     angular.module('sharedServices').provider('credentialsService', function () {
 
         this.$get = function ($http, $cookies, $window) {
-            var userCredentials = $cookies.get('hoyComoComercioUser');
+            var store_id = $cookies.get('store_id');
 
-            if (!userCredentials) {
+            if (!store_id) {
                 
                 // $window.location.href = $window.location.origin + "/auth.html";
             }
@@ -22,12 +22,12 @@
                     })
             }
 
-            var saveProfileCookie = function (profile) {
-                $cookies.putObject('hoyComoComercioUser', profile);
+            var saveProfileCookie = function (store_id) {
+                $cookies.put('store_id', store_id);
             }
 
-            var getUser = function (profile) {
-                return $cookies.getObject('hoyComoComercioUser');
+            var getUser = function () {
+                return $cookies.get('store_id');
             }
         
             return {
