@@ -7,8 +7,7 @@
             return {
                 scope: {
                     fileinput: "=",
-                    filepreviews: "=",
-                    itemFiles: "="
+                    filepreviews: "="
                 },
                 link: function(scope, element, attrs) {
                     var model = $parse(attrs.fileinput);
@@ -24,9 +23,6 @@
                                 modelSetter(scope, values);
                             } else {
                                 modelSetter(scope, values[0]);
-                            }
-                            for (let i in values) {
-                                scope.itemFiles.push(values[i]);
                             }
                         });
 
@@ -55,7 +51,6 @@
         $scope.itemName = null;
         $scope.itemPrice = null;
         $scope.itemDiscount = null;
-        $scope.itemFiles = [];
         $scope.filepreviews = [];
         $scope.toastOptions = {
             autoDismiss: false,
@@ -79,7 +74,6 @@
         };
 
         $scope.resetNewItemForm = function () {
-            $scope.itemFiles = [];
             $scope.filepreviews = [];
             document.getElementById("newMenuItemForm").reset();
         };
@@ -114,7 +108,7 @@
                 name: self.itemName,
                 price: self.itemPrice,
                 discount: self.itemDiscount | 0,
-                pictures: self.itemFiles
+                pictures: self.filepreviews
             };
 
             MenuService.addItem(item)
