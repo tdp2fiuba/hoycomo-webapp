@@ -8,7 +8,7 @@
             const BASE_URL = 'https://hoycomo-server.herokuapp.com/api';
 
             const getItems = function () {
-                let storeId = 1;    // TODO: Retrieve actual storeId from credentialsService.
+                let storeId = 3;    // TODO: Retrieve actual storeId from credentialsService.
 
                 const url = BASE_URL + '/dish/store/' + storeId;
                 return $http({
@@ -21,13 +21,8 @@
             };
 
             const addItem = function (menuItem) {
-                let storeId = 1;    // TODO: Retrieve actual storeId from credentialsService.
-
+                let storeId = 3;    // TODO: Retrieve actual storeId from credentialsService.
                 menuItem.store_id = storeId;
-                let data = {
-                    dish: menuItem,
-                    pictures: menuItem.pictures     // TODO: This should be inside dish object.
-                };
 
                 const url = BASE_URL + '/dish';
                 return $http({
@@ -36,7 +31,7 @@
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        data: data
+                        data: menuItem
                 });
             };
         

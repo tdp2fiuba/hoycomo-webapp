@@ -108,7 +108,12 @@
                 name: self.itemName,
                 price: self.itemPrice,
                 discount: self.itemDiscount | 0,
-                pictures: self.filepreviews
+                pictures: self.filepreviews.map(base64File => {
+                    return {
+                        type: base64File.split(',')[0].match(/\/(.*);/)[1],
+                        data: base64File
+                    }
+                })
             };
 
             MenuService.addItem(item)
