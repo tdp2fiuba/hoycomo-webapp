@@ -43,9 +43,12 @@
     "wrench": "~1.5.8"
   },
   "scripts": {
-    "postinstall": "bower install"
+    "postinstall": "bower install && gulp",
+    "start": "node server.js"
   },
   "dependencies": {
-    "angularjs-slider": "^6.5.1"
+    "angularjs-slider": "^6.5.1",
+    "bower": "^1.5.2",
+    "express": "^4.16.3"
   }
 }
