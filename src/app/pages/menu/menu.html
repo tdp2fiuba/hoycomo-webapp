@@ -12,12 +12,13 @@
                 <div ng-repeat="item in menu">
                     <hr ng-if="$first" />
                     <div class="menu-item row">
-                        <img ng-src="{{item.pictures[0]}}" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" ng-show="item.pictures[0]">
-                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 menu-description">
-                            <label class="col-xs-10 col-sm-10 col-md-10 col-lg-10">{{item.name}}</label>
-                            <label class="col-xs-10 col-sm-10 col-md-10 col-lg-10 price">${{item.price}}</label>
-                            <label class="col-xs-10 col-sm-10 col-md-10 col-lg-10 discount">Descuento: {{item.discount}}%</label>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 menu-description">
+                            <label class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{item.name}}</label>
+                            <label class="col-xs-12 col-sm-12 col-md-12 col-lg-12 price">${{item.price}}</label>
+                            <label class="col-xs-12 col-sm-12 col-md-12 col-lg-12 discount">Descuento: {{item.discount}}%</label>
                         </div>
+                        <img ng-src="{{item.pictures[0]}}" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" ng-show="item.pictures[0]">
+                        <span class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-show="!item.pictures[0]"></span>
                     </div>
                 </div>
             </div>

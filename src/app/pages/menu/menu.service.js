@@ -13,6 +13,7 @@
                 return $http({
                     method: 'GET',
                     url: url,
+                    params: {count: 100},
                     headers: {
                         'Content-Type': 'application/json'
                     }
