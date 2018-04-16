@@ -1,3 +1,58 @@
 @import 'theme/conf/mixins';
 @import 'theme/conf/colorScheme/mint';
 @import 'theme/conf/variables';
+
+.table {
+    th {
+        font-weight: $font-bold;
+    }
+    .title-row {
+        font-weight: $font-bold;
+        font-size: 16px;
+    }
+    .time-column {
+        font-style: italic;
+        text-align: right;
+        width: 40%
+    }
+    .day-column {
+        width: 60%;
+        text-align: left !important;
+        font-weight: $font-bold;
+    }
+}
+
+.userpic-wrapper img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.fadeIf.ng-enter {
+  transition: 0.5s linear all;
+}
+.fadeIf.ng-enter {
+  opacity: 0;
+}
+.fadeIf.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+
+.profileSliderRow.slider-box {
+    min-height: 55px !important;
+}
+
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+  }
+  
+  /*
+   * Styles copied from the Grid example to make grid rows & columns visible.
+   */
+  .container {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  
