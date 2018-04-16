@@ -14,7 +14,8 @@
                 controller: 'MenuController',
                 provider: 'MenuController',
                 sidebarMeta: {
-                    order: 0
+                    icon: 'ion-pizza',
+                    order: 1
                 }
             });
     }

@@ -11,9 +11,9 @@
                 <h3>Menú</h3>
                 <div ng-repeat="item in menu">
                     <hr ng-if="$first" />
-                    <div class="menu-item">
+                    <div class="menu-item row">
                         <img ng-src="{{item.pictures[0]}}" class="col-sm-2">
-                        <div class="col-sm-10">
+                        <div class="col-sm-10 menu-description">
                             <label class="col-sm-10">{{item.name}}</label>
                             <label class="col-sm-10 price">${{item.price}}</label>
                             <label class="col-sm-10 discount">Descuento: {{item.discount}}%</label>

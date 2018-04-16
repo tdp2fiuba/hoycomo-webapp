@@ -14,12 +14,16 @@
   }
 
   .menu-item {
+    margin-top: 10px;
     .price {
       color: $primary;
     }
     .discount {
       margin-bottom: 24px;
       color: $warning;
+    }
+    .menu-description {
+      padding-top: 5px;
     }
   }
 
