@@ -14,16 +14,26 @@
             var login = function (credentials) {
                 return $http({
                         method: 'POST',
-                        url: 'http://localhost:8080/api/login',
+                        url: 'https://hoycomo-server.herokuapp.com/api/login',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         data: credentials
                     })
             }
+
+            var saveProfileCookie = function (profile) {
+                $cookies.putObject('hoyComoComercioUser', profile);
+            }
+
+            var getUser = function (profile) {
+                return $cookies.getObject('hoyComoComercioUser');
+            }
         
             return {
-                login: login
+                login: login,
+                saveProfileCookie: saveProfileCookie,
+                getUser: getUser
             }
         }
     });
