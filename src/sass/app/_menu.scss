@@ -15,8 +15,11 @@
 
   .menu-item {
     .price {
-      margin-bottom: 24px;
       color: $primary;
+    }
+    .discount {
+      margin-bottom: 24px;
+      color: $warning;
     }
   }
 
