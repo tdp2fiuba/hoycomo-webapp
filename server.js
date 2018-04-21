@@ -3,5 +3,6 @@ const app = express();
 
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + '/release'));
-
-app.listen(process.env.PORT || 8080);
+const port = process.env.PORT || 8080;
+app.listen(port);
+console.log("webapp listen in port " + port);

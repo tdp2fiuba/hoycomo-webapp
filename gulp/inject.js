@@ -3,7 +3,7 @@
 var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
-
+var babel = require('gulp-babel');
 var $ = require('gulp-load-plugins')();
 
 var wiredep = require('wiredep').stream;
@@ -29,6 +29,7 @@ gulp.task('inject', ['scripts', 'styles', 'injectAuth', 'inject404', 'copyVendor
     path.join('!' + conf.paths.src, '/app/**/*.spec.js'),
     path.join('!' + conf.paths.src, '/app/**/*.mock.js'),
   ])
+      .pipe(babel())
     /*.pipe($.angularFilesort())*/.on('error', conf.errorHandler('AngularFilesort'));
 
   var injectOptions = {
@@ -53,7 +54,7 @@ gulp.task('injectAuth', ['scripts', 'stylesAuth'], function () {
     path.join(conf.paths.src, '/assets/js/**/*.js'),
     path.join(conf.paths.src, '/shared/**/*.js'),
     path.join(conf.paths.src, '/login/**/*.js'),
-  ])
+  ]).pipe(babel())
 
   var injectOptions = {
     ignorePath: [conf.paths.src, path.join(conf.paths.tmp, '/serve')],

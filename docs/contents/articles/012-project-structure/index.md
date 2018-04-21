@@ -11,7 +11,7 @@ Project structure was originally based on [this angular generator](https://githu
 The directory structure of this template is as follows:
 ```
 ├── bower.json               <- front-end library dependencies
-├── gulpfile.js              <- main task runner file
+├── gulpfile.babel.js              <- main task runner file
 ├── package.json             <- mostly task runner dependencies
 ├── docs/                    <- wintersmith documentation generator
 ├── gulp/                    <- build tasks
