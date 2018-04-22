@@ -5,7 +5,7 @@
            .controller('MisDatosCtrl', MisDatosCtrl);
   
     /** @ngInject */
-    function MisDatosCtrl($scope, credentialsService, fileReader, $filter, storeService, toastr, toastrConfig) {
+    function MisDatosCtrl($scope, credentialsService, foodTypesService, storeService, fileReader, $filter, toastr, toastrConfig) {
         var self = this;
 
         $scope.sliderValues = [
@@ -28,19 +28,7 @@
         };
 
         self.foodTypes = [];
-
-        self.options = [ 
-            { id: 1, label: "Opcion1"},
-            { id: 2, label: "Opcion2"},
-            { id: 3, label: "Opcion3"},
-            { id: 4, label: "Opcion4"},
-            { id: 5, label: "Opcion5"},
-            { id: 6, label: "Opcion6"},
-            { id: 7, label: "Opcion7"},
-            { id: 8, label: "Opcion8"},
-            { id: 9, label: "Opcion9"},
-            { id: 10, label: "Opcion10"},
-        ]
+        self.storeFoodTypes = [];
 
         var toastOptions = {
             autoDismiss: false,
@@ -81,16 +69,20 @@
             $scope.showAddProfile = false;
             $scope.saving = false;
             $scope.loading = true;
-            storeService.getStore(credentialsService.getUser()).then(function (data) {
-                $scope.loading = false;
-                $scope.profile = data.data;
-                $scope.profileLoaded = $scope.profile ? !!$scope.profile.availability.monday.start_time : false;
-                $scope.availability = $scope.profile.availability ? mapAvailability() : defaultAvailability.slice(0);
-                $scope.logo = $scope.profile.avatar ? $scope.profile.avatar : $filter('appImage')('theme/no-photo.png');
+            foodTypesService.getAll().then(function (data) {
+                self.foodTypes = data.data.map(function(item) { return { id: item.description, label: item.description  }});
+                storeService.getStore(credentialsService.getUser()).then(function (storeData) {
+                    $scope.loading = false;
+                    $scope.profile = storeData.data;
+                    $scope.profileLoaded = $scope.profile ? !!$scope.profile.availability.monday.start_time : false;
+                    $scope.availability = $scope.profile.availability ? mapAvailability() : defaultAvailability.slice(0);
+                    $scope.logo = $scope.profile.avatar ? $scope.profile.avatar : $filter('appImage')('theme/no-photo.png');
+                    self.storeFoodTypes = $scope.profile.foodTypes.map(function(item) { return { id: item, label: item  }});
+                })
             }).catch(function (err) {
                 $scope.loading = false;
                 console.log(err);
-            })
+            });
         }
 
         $scope.loadProfile();
@@ -119,7 +111,6 @@
         };
 
         $scope.saveProfile = function () {
-            console.log(self.foodTypes);
             if ($scope.logoType) {
                 var daysAvailability = {};
                 angular.forEach($scope.availability, function (day) {
@@ -133,7 +124,8 @@
                     name: $scope.profile.name,
                     availability: daysAvailability,
                     avatar: $scope.logo,
-                    avatarType: $scope.logoType
+                    avatarType: $scope.logoType,
+                    foodTypes: self.storeFoodTypes
                 }
                 $scope.saving = true;
                 storeService.saveProfile(profile).then(function (data) {

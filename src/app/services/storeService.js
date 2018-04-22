@@ -7,12 +7,17 @@
         var saveProfile = function (store) {
             return $http({
                 method: 'PUT',
-                url: 'http://localhost:8080/api/store/' + store_id,
+                url: 'http://localhost:8080/api/store/' + store.id,
                 // url: 'https://hoycomo-server.herokuapp.com/api/store/' + store.id,
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: { name: store.name, availability: store.availability, avatar: { data: store.avatar, type: store.avatarType } }
+                data: { 
+                    name: store.name, 
+                    availability: store.availability, 
+                    avatar: { data: store.avatar, type: store.avatarType },
+                    foodTypes: store.foodTypes.map(function (item) { return item.id }) 
+                }
             })
         }
 

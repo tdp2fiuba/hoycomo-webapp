@@ -37,6 +37,12 @@
   opacity: 1;
 }
 
+.fadeIf {
+    .row {
+        padding-left: 10px;
+    }
+}
+
 .profileSliderRow.slider-box {
     min-height: 55px !important;
 }
@@ -68,3 +74,5 @@
         margin-top: -2px;
     }
   }
+
+  

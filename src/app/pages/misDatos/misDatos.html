@@ -11,7 +11,7 @@
             <button type="button" class="btn btn-success btn-raised" ng-click="addProfile()">Agregar Perfil</button>
         </div>
     </div>
-    <div ng-if="profileLoaded" class="fadeIf">
+    <div ng-if="profileLoaded" class="fadeIf" ba-panel>
         <div class="row show-grid">
             <div class="col-md-12">
                 <h2>{{ profile.name }}</h2>
@@ -21,7 +21,7 @@
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-7">
-                <h3>Logo</h3>
+                <h3>Tipo de Comidas</h3>
             </div>
         </div>
         <div class="row">
@@ -47,8 +47,14 @@
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-7">
-                <div class="userpic userpic-wrapper" style="margin-top:10px;">
-                    <img ng-src="{{ logo }}"/>
+                <div class="row" style="padding-bottom: 20px;">
+                    <h5>{{ profile.foodTypes.join(', ') }}</h4>
+                </div>
+                <div class="row">
+                    <h3>Logo</h3>
+                    <div class="userpic userpic-wrapper" style="margin-top:10px;">
+                        <img ng-src="{{ logo }}"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -87,8 +93,8 @@
             <div class="col-md-4">
                 <div class="row" style="margin-top: 5px; padding-bottom: 25px;">
                     <div ng-dropdown-multiselect="" 
-                            options="ctrl.options" 
-                            selected-model="ctrl.foodTypes" 
+                            options="ctrl.foodTypes" 
+                            selected-model="ctrl.storeFoodTypes" 
                             extra-settings="ctrl.multiselectSettings"></div>
                 </div>
                 <div class="row" style="height:75%">
