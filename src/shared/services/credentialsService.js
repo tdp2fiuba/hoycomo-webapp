@@ -14,7 +14,8 @@
             var login = function (credentials) {
                 return $http({
                         method: 'POST',
-                        url: 'https://hoycomo-server.herokuapp.com/api/login',
+                        url: 'http://localhost:8080/api/login',
+                        // url: 'https://hoycomo-server.herokuapp.com/api/login',
                         headers: {
                             'Content-Type': 'application/json'
                         },

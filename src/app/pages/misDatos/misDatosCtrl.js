@@ -6,7 +6,8 @@
   
     /** @ngInject */
     function MisDatosCtrl($scope, credentialsService, fileReader, $filter, storeService, toastr, toastrConfig) {
-        
+        var self = this;
+
         $scope.sliderValues = [
           "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", 
           "04:00", "04:30", "05:00", "05:30", "06:00", "06:30", "07:00", "07:30", 
@@ -16,6 +17,30 @@
           "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30",
           '24:00'
         ];
+
+        self.multiselectSettings = {
+            smartButtonMaxItems: 3, 
+            smartButtonTextConverter: function(itemText, originalItem) { 
+                return itemText; 
+            },
+            scrollable: true,
+            scrollableHeight: '250px'
+        };
+
+        self.foodTypes = [];
+
+        self.options = [ 
+            { id: 1, label: "Opcion1"},
+            { id: 2, label: "Opcion2"},
+            { id: 3, label: "Opcion3"},
+            { id: 4, label: "Opcion4"},
+            { id: 5, label: "Opcion5"},
+            { id: 6, label: "Opcion6"},
+            { id: 7, label: "Opcion7"},
+            { id: 8, label: "Opcion8"},
+            { id: 9, label: "Opcion9"},
+            { id: 10, label: "Opcion10"},
+        ]
 
         var toastOptions = {
             autoDismiss: false,
@@ -94,6 +119,7 @@
         };
 
         $scope.saveProfile = function () {
+            console.log(self.foodTypes);
             if ($scope.logoType) {
                 var daysAvailability = {};
                 angular.forEach($scope.availability, function (day) {

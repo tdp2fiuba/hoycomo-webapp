@@ -131,15 +131,16 @@
 <script src="../bower_components/angular-ui-select/dist/select.js"></script>
 <script src="../bower_components/angular-cookies/angular-cookies.js"></script>
 <script src="../bower_components/angular-messages/angular-messages.js"></script>
+<script src="../bower_components/angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMJi-iBGMoLBGQvoA6Vb6jMcnoZ8DeLGM"></script>
 <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
 <!-- inject:js -->
 <script src="shared/firstShared.js"></script>
 <script src="shared/services/credentialsService.js"></script>
-<script src="app/pages/charts/charts.module.js"></script>
 <script src="app/pages/components/components.module.js"></script>
+<script src="app/pages/charts/charts.module.js"></script>
 <script src="app/pages/dashboard/dashboard.module.js"></script>
 <script src="app/pages/form/form.module.js"></script>
 <script src="app/pages/maps/maps.module.js"></script>
@@ -150,13 +151,13 @@
 <script src="app/pages/ui/ui.module.js"></script>
 <script src="app/theme/components/components.module.js"></script>
 <script src="app/theme/inputs/inputs.module.js"></script>
+<script src="app/pages/components/mail/mail.module.js"></script>
+<script src="app/pages/components/timeline/timeline.module.js"></script>
+<script src="app/pages/components/tree/tree.module.js"></script>
 <script src="app/pages/charts/amCharts/amCharts.module.js"></script>
 <script src="app/pages/charts/chartJs/chartJs.module.js"></script>
 <script src="app/pages/charts/chartist/chartist.module.js"></script>
 <script src="app/pages/charts/morris/morris.module.js"></script>
-<script src="app/pages/components/mail/mail.module.js"></script>
-<script src="app/pages/components/timeline/timeline.module.js"></script>
-<script src="app/pages/components/tree/tree.module.js"></script>
 <script src="app/pages/ui/alerts/alerts.module.js"></script>
 <script src="app/pages/ui/buttons/buttons.module.js"></script>
 <script src="app/pages/ui/grid/grid.module.js"></script>
@@ -198,15 +199,15 @@
 <script src="app/theme/services/fileReader.js"></script>
 <script src="app/theme/services/preloader.js"></script>
 <script src="app/theme/services/stopableInterval.js"></script>
+<script src="app/pages/components/mail/MailTabCtrl.js"></script>
+<script src="app/pages/components/mail/mailMessages.js"></script>
+<script src="app/pages/components/timeline/TimelineCtrl.js"></script>
+<script src="app/pages/components/tree/treeCtrl.js"></script>
 <script src="app/pages/charts/chartJs/chartJs1DCtrl.js"></script>
 <script src="app/pages/charts/chartJs/chartJs2DCtrl.js"></script>
 <script src="app/pages/charts/chartJs/chartJsWaveCtrl.js"></script>
 <script src="app/pages/charts/chartist/chartistCtrl.js"></script>
 <script src="app/pages/charts/morris/morrisCtrl.js"></script>
-<script src="app/pages/components/mail/MailTabCtrl.js"></script>
-<script src="app/pages/components/mail/mailMessages.js"></script>
-<script src="app/pages/components/timeline/TimelineCtrl.js"></script>
-<script src="app/pages/components/tree/treeCtrl.js"></script>
 <script src="app/pages/dashboard/blurFeed/BlurFeedCtrl.js"></script>
 <script src="app/pages/dashboard/blurFeed/blurFeed.directive.js"></script>
 <script src="app/pages/dashboard/calendar/dashboardCalendar.js"></script>
@@ -259,19 +260,19 @@
 <script src="app/theme/filters/image/profilePicture.js"></script>
 <script src="app/theme/filters/text/removeHtml.js"></script>
 <script src="app/theme/inputs/baSwitcher/baSwitcher.js"></script>
-<script src="app/pages/charts/amCharts/barChart/BarChartCtrl.js"></script>
+<script src="app/pages/components/mail/composeBox/composeBoxCtrl.js"></script>
+<script src="app/pages/components/mail/composeBox/composeModal.js"></script>
+<script src="app/pages/components/mail/detail/MailDetailCtrl.js"></script>
+<script src="app/pages/components/mail/list/MailListCtrl.js"></script>
 <script src="app/pages/charts/amCharts/areaChart/AreaChartCtrl.js"></script>
+<script src="app/pages/charts/amCharts/barChart/BarChartCtrl.js"></script>
 <script src="app/pages/charts/amCharts/combinedChart/combinedChartCtrl.js"></script>
 <script src="app/pages/charts/amCharts/funnelChart/FunnelChartCtrl.js"></script>
 <script src="app/pages/charts/amCharts/ganttChart/ganttChartCtrl.js"></script>
 <script src="app/pages/charts/amCharts/lineChart/LineChartCtrl.js"></script>
 <script src="app/pages/charts/amCharts/pieChart/PieChartCtrl.js"></script>
-<script src="app/pages/components/mail/composeBox/composeBoxCtrl.js"></script>
-<script src="app/pages/components/mail/composeBox/composeModal.js"></script>
-<script src="app/pages/components/mail/detail/MailDetailCtrl.js"></script>
-<script src="app/pages/components/mail/list/MailListCtrl.js"></script>
-<script src="app/pages/ui/modals/progressModal/ProgressModalCtrl.js"></script>
 <script src="app/pages/ui/modals/notifications/NotificationsCtrl.js"></script>
+<script src="app/pages/ui/modals/progressModal/ProgressModalCtrl.js"></script>
 <script src="app/theme/components/backTop/lib/jquery.backTop.min.js"></script>
 <script src="app/pages/form/inputs/widgets/datePickers/datepickerCtrl.js"></script>
 <script src="app/pages/form/inputs/widgets/datePickers/datepickerpopupCtrl.js"></script>

@@ -7,7 +7,8 @@
         var saveProfile = function (store) {
             return $http({
                 method: 'PUT',
-                url: 'https://hoycomo-server.herokuapp.com/api/store/' + store.id,
+                url: 'http://localhost:8080/api/store/' + store_id,
+                // url: 'https://hoycomo-server.herokuapp.com/api/store/' + store.id,
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -18,7 +19,8 @@
         var getStore = function (store_id) {
             return $http({
                 method: 'GET',
-                url: 'https://hoycomo-server.herokuapp.com/api/store/' + store_id,
+                url: 'http://localhost:8080/api/store/' + store_id,
+                // url: 'https://hoycomo-server.herokuapp.com/api/store/' + store_id,
                 headers: {
                     'Content-Type': 'application/json'
                 },
