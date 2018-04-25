@@ -1,22 +1,70 @@
 (function () {
     'use strict';
-  
+
+    var sliderValues = [
+        "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", 
+        "04:00", "04:30", "05:00", "05:30", "06:00", "06:30", "07:00", "07:30", 
+        "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", 
+        "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", 
+        "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", 
+        "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30",
+        '24:00'
+      ];
+
+    function DayAvailability(day, startTime, endTime) {
+        var self = this;
+        var daysNames = {
+            "monday": "Lunes",
+            "tuesday": "Martes",
+            "wednesday": "Miércoles",
+            "thursday": "Jueves",
+            "friday": "Viernes",
+            "saturday": "Sábado",
+            "sunday": "Domingo"
+        };
+        var parseAvailabilityTime = function (startTime, endTime) {
+            if (startTime === "00:00:00" && endTime === "24:00:00") {
+                return "Todo el día";
+            }
+            if (startTime === "00:00:00" && endTime === "00:00:00") {
+                return "Cerrado";
+            } 
+            return self.parsedStartTime + "-" + self.parsedEndTime + "hs";
+        }
+        this.day = day;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.parsedStartTime = moment(this.startTime, "HH:mm:ss").format('HH:mm');
+        this.parsedEndTime = moment(endTime, "HH:mm:ss").format('HH:mm');
+        this.parsedDay = daysNames[day];
+        this.parseAvailabilityTime = parseAvailabilityTime(startTime, endTime);
+        this.handleSliderChange = function (data) {
+            self.startTime = data.from_value + ":00";
+            self.endTime = data.to_value + ":00";
+        }
+        this.getStartTime = function () {
+            var startTimeParsed = moment(startTime, "HH:mm:ss").format('HH:mm');
+            return sliderValues.findIndex(function (item) { return item === self.parsedStartTime });
+        }
+        this.getEndTime = function () {
+            return sliderValues.findIndex(function (item) { return item === self.parsedEndTime })
+        }
+    }
+
     angular.module('BlurAdmin.pages.misDatos')
            .controller('MisDatosCtrl', MisDatosCtrl);
   
     /** @ngInject */
     function MisDatosCtrl($scope, credentialsService, foodTypesService, storeService, fileReader, $filter, toastr, toastrConfig) {
         var self = this;
+        var foodTypesDefaultClasses = 'btn btn-default';
+        var foodTypesErrorClasses = 'btn btn-default btn-error';
+        var logoDefaultClass = 'userpic';
+        var logoErrorClass = 'userpic userpic-error'
 
-        $scope.sliderValues = [
-          "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", 
-          "04:00", "04:30", "05:00", "05:30", "06:00", "06:30", "07:00", "07:30", 
-          "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", 
-          "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", 
-          "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", 
-          "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30",
-          '24:00'
-        ];
+        self.foodTypeClasses = foodTypesDefaultClasses;
+        self.logoClass = logoDefaultClass;
+        $scope.sliderValues = sliderValues
 
         self.multiselectSettings = {
             smartButtonMaxItems: 3, 
@@ -28,11 +76,23 @@
         };
 
         self.foodTypes = [];
-        self.storeFoodTypes = [];
+        self.profile = {
+            id: 0,
+            name: '',
+            availability: {},
+            logo: '',
+            logoType: '',
+            storeFoodTypes: [],
+            storeFoodTypesString: function () {
+                return this.storeFoodTypes.map(function (item) { return item.id }).join(', ');
+            }
+        }
+
+        $scope.ctrl = self;
 
         var toastOptions = {
             autoDismiss: false,
-            positionClass: 'toast-top-left',
+            positionClass: 'toast-top-right',
             type: 'error',
             timeOut: '2000',
             extendedTimeOut: '2000',
@@ -43,7 +103,8 @@
             newestOnTop: true,
             maxOpened: 0,
             preventDuplicates: false,
-            preventOpenDuplicates: false
+            preventOpenDuplicates: false,
+            allowHtml: true
         };
 
         var defaultAvailability = [
@@ -56,9 +117,9 @@
             new DayAvailability("sunday", "00:00:00", '24:00:00')
         ];
 
-        var mapAvailability = function () {
-            return Object.keys($scope.profile.availability).map(function (day) {
-                var dayAvailability = $scope.profile.availability[day];
+        var mapAvailability = function (availability) {
+            return Object.keys(availability).map(function (day) {
+                var dayAvailability = availability[day];
                 var startTime = dayAvailability.start_time ? dayAvailability.start_time : "00:00:00";
                 var endTime = dayAvailability.end_time ? dayAvailability.end_time : "24:00:00";
                 return new DayAvailability(day, startTime, endTime);
@@ -73,22 +134,31 @@
                 self.foodTypes = data.data.map(function(item) { return { id: item.description, label: item.description  }});
                 storeService.getStore(credentialsService.getUser()).then(function (storeData) {
                     $scope.loading = false;
-                    $scope.profile = storeData.data;
-                    $scope.profileLoaded = $scope.profile ? !!$scope.profile.availability.monday.start_time : false;
-                    $scope.availability = $scope.profile.availability ? mapAvailability() : defaultAvailability.slice(0);
-                    $scope.logo = $scope.profile.avatar ? $scope.profile.avatar : $filter('appImage')('theme/no-photo.png');
-                    self.storeFoodTypes = $scope.profile.foodTypes.map(function(item) { return { id: item, label: item  }});
+                    var profile = storeData.data;
+                    self.profile.id = profile.id;
+                    self.profile.name = profile.name;
+                    self.profile.availability = profile.availability;
+                    $scope.profileLoaded = profile ? !!profile.availability.monday.start_time : false;
+                    
+                    if (profile.availability) {
+                        self.profile.availability = profile.availability ? mapAvailability(profile.availability) : defaultAvailability.slice(0);
+                    }
+                    if (profile.avatar) {
+                        self.profile.logo = profile.avatar ? profile.avatar : $filter('appImage')('theme/no-photo.png');
+                        var logoFileParts = self.profile.logo.split('.');
+                        self.profile.logoType = logoFileParts[logoFileParts.length - 1];
+                    }
+
+                    self.profile.storeFoodTypes = profile.foodTypes.map(function(item) { return { id: item, label: item  }});
                 })
             }).catch(function (err) {
                 $scope.loading = false;
                 console.log(err);
             });
         }
-
-        $scope.loadProfile();
         
-        $scope.addProfile = function () {
-            $scope.showAddProfile = true;
+        $scope.toggleEditProfile = function () {
+            $scope.showAddProfile = !$scope.showAddProfile;
         }
 
         $scope.uploadPicture = function () {
@@ -98,11 +168,11 @@
 
         $scope.getFile = function () {
             var currentScope = this;
-            if (currentScope.file.type.indexOf("image/") > -1) {
-                $scope.logoType = currentScope.file.type.replace("image/", "");
+            if (currentScope && currentScope.file.type.indexOf("image/") > -1) {
+                self.profile.logoType = currentScope.file.type.replace("image/", "");
                 fileReader.readAsDataUrl(currentScope.file, $scope)
                     .then(function (result) {
-                        $scope.logo = result;
+                        $scope.ctrl.profile.logo = result;
                     });
             } else {
                 angular.extend(toastrConfig, toastOptions);
@@ -111,27 +181,29 @@
         };
 
         $scope.saveProfile = function () {
-            if ($scope.logoType) {
+            if (self.profile.logoType && self.profile.storeFoodTypes.length !== 0) {
+                self.logoClass = logoDefaultClass;
+                self.foodTypeClasses = foodTypesDefaultClasses;
                 var daysAvailability = {};
-                angular.forEach($scope.availability, function (day) {
+                angular.forEach(self.profile.availability, function (day) {
                     daysAvailability[day.day] = {
                         start_time: day.startTime,
                         end_time: day.endTime
                     }
                 });
                 var profile = {
-                    id: $scope.profile.id,
-                    name: $scope.profile.name,
+                    id: self.profile.id,
+                    name: self.profile.name,
                     availability: daysAvailability,
-                    avatar: $scope.logo,
-                    avatarType: $scope.logoType,
-                    foodTypes: self.storeFoodTypes
+                    avatar: self.profile.logo,
+                    avatarType: self.profile.logoType,
+                    foodTypes: self.profile.storeFoodTypes
                 }
                 $scope.saving = true;
                 storeService.saveProfile(profile).then(function (data) {
                     $scope.saving = false;
-                    $scope.profile.availability = profile.availability;
-                    $scope.profile.avatar = data.data.avatar;
+                    self.profile.availability = profile.availability;
+                    self.profile.avatar = data.data.avatar;
                     $scope.profileLoaded = true;
                     $scope.showAddProfile = false;
                     $scope.loadProfile();
@@ -141,41 +213,26 @@
                     toastr["error"]("Hubo un error intentando guardar el perfil. Intente nuevamente", "Error guardando perfil");
                 })
             } else {
-              angular.extend(toastrConfig, toastOptions);
-              toastr["error"]("Debe elegir una nueva imagen desde su PC", "Error guardando perfil");
-            }
-        }
-        function DayAvailability(day, startTime, endTime) {
-            var self = this;
-            var daysNames = {
-                "monday": "Lunes",
-                "tuesday": "Martes",
-                "wednesday": "Miércoles",
-                "thursday": "Jueves",
-                "friday": "Viernes",
-                "saturday": "Sábado",
-                "sunday": "Domingo"
-            };
-            var parseAvailabilityTime = function (startTime, endTime) {
-                if (startTime === "00:00:00" && endTime === "24:00:00") {
-                    return "Todo el día";
+                var message = ""
+                if (self.profile.storeFoodTypes.length === 0) {
+                    message += "Debe elegir al menos un tipo de comida<br>";
+                    self.foodTypeClasses = foodTypesErrorClasses;
                 }
-                if (startTime === "00:00:00" && endTime === "00:00:00") {
-                    return "Cerrado";
-                } 
-                var startTimeParsed = moment(startTime, "HH:mm:ss").format('HH:mm');
-                var endTimeParsed = moment(endTime, "HH:mm:ss").format('HH:mm');
-                return startTimeParsed + "-" + endTimeParsed + "hs";
-            }
-            this.day = day;
-            this.startTime = startTime;
-            this.endTime = endTime;
-            this.parsedDay = daysNames[day];
-            this.parseAvailabilityTime = parseAvailabilityTime(startTime, endTime);
-            this.handleSliderChange = function (data) {
-                self.startTime = data.from_value + ":00";
-                self.endTime = data.to_value + ":00";
+                if (!self.profile.logoType) {
+                    message += "Debe elegir una nueva imagen desde su PC";
+                    self.logoClass = logoErrorClass;
+                }
+                angular.extend(toastrConfig, toastOptions);
+                toastr["error"](message, "Error guardando perfil");
             }
         }
+
+        $scope.$watch('ctrl.storeFoodTypes.length', function (newValue) {
+           if (newValue > 0 && self.foodTypeClasses === foodTypesErrorClasses) {
+               self.foodTypeClasses = foodTypesDefaultClasses;
+           }
+        });
+
+        $scope.loadProfile();
     }
 })();  
