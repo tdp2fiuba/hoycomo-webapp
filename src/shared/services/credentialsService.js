@@ -6,16 +6,12 @@
         this.$get = function ($http, $cookies, $window) {
             var store_id = $cookies.get('store_id');
 
-            if (!store_id) {
-                
-                // $window.location.href = $window.location.origin + "/auth.html";
-            }
+            // TODO: Implementar redirect en caso de que entre por URL sin credenciales
 
             var login = function (credentials) {
                 return $http({
                         method: 'POST',
-                        url: 'http://localhost:8080/api/login',
-                        // url: 'https://hoycomo-server.herokuapp.com/api/login',
+                        url: 'https://hoycomo-server.herokuapp.com/api/login',
                         headers: {
                             'Content-Type': 'application/json'
                         },
