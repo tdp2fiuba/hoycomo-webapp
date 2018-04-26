@@ -17,5 +17,6 @@ angular.module('BlurAdmin', [
   'BlurAdmin.theme',
   'BlurAdmin.pages',
   'ngCookies',
-  'sharedServices'
+  'sharedServices',
+  'angularjs-dropdown-multiselect'
 ]);

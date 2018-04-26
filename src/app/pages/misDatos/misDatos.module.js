@@ -10,7 +10,7 @@
         .state('misDatos', {
           url: '/misDatos',
           templateUrl: 'app/pages/misDatos/misDatos.html',
-          controller: 'MisDatosCtrl',
+          controller: 'MisDatosCtrl as ctrl',
           title: 'Perfil Comercio',
           sidebarMeta: {
             icon: 'ion-home',

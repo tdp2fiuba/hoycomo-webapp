@@ -8,20 +8,20 @@
             <h3>Haga click en el botón de abajo para completar sus datos</h3>
         </div>
         <div class="col-md-12">
-            <button type="button" class="btn btn-success btn-raised" ng-click="addProfile()">Agregar Perfil</button>
+            <button type="button" class="btn btn-success btn-raised" ng-click="toggleEditProfile()">Editar Perfil</button>
         </div>
     </div>
-    <div ng-if="profileLoaded" class="fadeIf">
+    <div ng-if="profileLoaded" class="fadeIf" ba-panel>
         <div class="row show-grid">
             <div class="col-md-12">
-                <h2>{{ profile.name }}</h2>
+                <h2>{{ ctrl.profile.name }}</h2>
             </div>
             <div class="col-md-4">
                 <h3>Horarios</h3>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-7">
-                <h3>Logo</h3>
+                <h3>Tipo de Comidas</h3>
             </div>
         </div>
         <div class="row">
@@ -37,7 +37,7 @@
                                     Horarios
                                 </td>
                             </tr>
-                            <tr ng-repeat="day in availability">
+                            <tr ng-repeat="day in ctrl.profile.availability">
                                 <td class="day-column">{{ day.parsedDay }}</th>
                                 <td class="time-column">{{ day.parseAvailabilityTime }}</td>
                             </tr>
@@ -47,13 +47,19 @@
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-7">
-                <div class="userpic userpic-wrapper" style="margin-top:10px;">
-                    <img ng-src="{{ logo }}"/>
+                <div class="row" style="padding-bottom: 20px;">
+                    <h5>{{ ctrl.profile.storeFoodTypesString() }}</h4>
+                </div>
+                <div class="row">
+                    <h3>Logo</h3>
+                    <div class="userpic userpic-wrapper" style="margin-top:10px;">
+                        <img ng-src="{{ ctrl.profile.logo }}"/>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div ng-if="showAddProfile" class="fadeIf">
+    <div ba-panel ng-if="showAddProfile" class="fadeIf">
         <div class="row show-grid">
             <div class="col-md-12">
                 <h2>Editar Perfil</h2>
@@ -63,12 +69,12 @@
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-5">
-                <h3>Logo</h3>
+                <h3>Tipo de Comida</h3>
             </div>
         </div>
         <div class="row row-eq-height" >
             <div class="col-md-6 profileSliderRow">
-                <div class="row" ng-repeat="day in availability">
+                <div class="row" ng-repeat="day in ctrl.profile.availability">
                     <div class="col-md-2" style="vertical-align: middle;">
                         {{ day.parsedDay }}
                         {{ day.realData }}
@@ -78,17 +84,28 @@
                             grid="true"
                             values="sliderValues"
                             disable="false"
-                            on-change="day.handleSliderChange">
+                            on-change="day.handleSliderChange"
+                            from="day.getStartTime()"
+                            to="day.getEndTime()">
                         </ion-slider>
                     </div>
                 </div>
             </div>
             <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <div class="row" style="height:90%">
-                    <div class="userpic">
+            <div class="col-md-4">
+                <div class="row" style="margin-top: 5px; padding-bottom: 25px;">
+                    <div ng-dropdown-multiselect="" 
+                            options="ctrl.foodTypes" 
+                            selected-model="ctrl.profile.storeFoodTypes" 
+                            extra-settings="ctrl.multiselectSettings"
+                            button-classes="{ class: ctrl.foodTypeClasses }"></div>
+                    
+                </div>
+                <div class="row" style="height:75%">
+                    <h3 style="padding-left: 10px;">Logo</h3>
+                    <div ng-class="ctrl.logoClass">
                         <div class="userpic-wrapper" >
-                            <img ng-src="{{ logo }}"/>
+                            <img ng-src="{{ ctrl.profile.logo }}"/>
                         </div>
                         <a href class="change-userpic" ng-click="uploadPicture()">Cambiar Foto de Perfil</a>
                         <input type="file" ng-show="false" id="uploadFile" ng-file-select="onFileSelect($files)">
@@ -100,9 +117,15 @@
                         <i ng-show="saving" class="fa fa-refresh fa-spin"></i>
                         Guardar Perfil
                     </button>
+                    <button class="btn btn-warning btn-with-icon" ng-click="toggleEditProfile()" ng-disabled="saving">
+                        <i class="fa fa-arrow-circle-left"></i>
+                        Volver 
+                    </button>
+                    
                 </div>
                 
             </div>
+            <div class="col-md-1"></div>
         </div>      
     </div>
 </div>

@@ -11,7 +11,12 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: { name: store.name, availability: store.availability, avatar: { data: store.avatar, type: store.avatarType } }
+                data: { 
+                    name: store.name, 
+                    availability: store.availability, 
+                    avatar: { data: store.avatar, type: store.avatarType },
+                    foodTypes: store.foodTypes.map(function (item) { return item.id }) 
+                }
             })
         }
 

@@ -28,6 +28,9 @@
 .fadeIf.ng-enter.ng-enter-active {
   opacity: 1; }
 
+.fadeIf .row {
+  padding-left: 10px; }
+
 .profileSliderRow.slider-box {
   min-height: 55px !important; }
 
@@ -41,6 +44,25 @@
 .container {
   padding-right: 15px;
   padding-left: 15px; }
+
+.dropdown-toggle .btn {
+  text-align: left !important; }
+
+.dropdown-toggle .caret {
+  position: absolute;
+  height: 10px;
+  top: 50%;
+  right: 10px;
+  margin-top: -2px; }
+
+.userpic.userpic-error {
+  border-color: #ed7878;
+  border-style: solid; }
+
+button.btn.btn-default.btn-error {
+  border-color: #ed7878;
+  border-style: solid;
+  border-width: 1px; }
 
 html {
   position: relative;

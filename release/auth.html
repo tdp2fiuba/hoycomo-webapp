@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hoy Como - Comercios</title>
+
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900&subset=latin,greek,greek-ext,vietnamese,cyrillic-ext,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
+
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png">
+
+  <link rel="stylesheet" href="styles/vendor-dddc8eebb5.css">
+
+  <link rel="stylesheet" href="styles/auth-58bce84c05.css">
+</head>
+<body ng-app="BlurAdmin.login">
+<main class="auth-main">
+  <div class="auth-block" ng-controller="LoginCtrl as ctrl">
+    <h1>HoyComo</h1>
+    <h2>Comercios</h2>
+    <h4>Ingrese sus credenciales</h4>
+    <form class="form-horizontal" name="loginForm" novalidate ng-submit="loginForm.$valid && ctrl.handleSubmit()">
+      <div class="form-group">
+        <label for="user" class="col-sm-2 control-label">Usuario</label>
+        <div class="col-sm-10">
+          <input type="text" required class="form-control" name="user" ng-model="ctrl.user" placeholder="Usuario">
+          <div ng-messages="loginForm.user.$error" ng-if="loginForm.user.$touched" class="formValidationMessage">
+              <div ng-message="required">Este campo es requerido</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password" class="col-sm-2 control-label">Contraseña</label>
+        <div class="col-sm-10">
+          <input required type="password" class="form-control" ng-model="ctrl.password" name="password" placeholder="Contraseña">
+          <div ng-messages="loginForm.password.$error" ng-if="loginForm.password.$touched" class="formValidationMessage">
+              <div ng-message="required">Este campo es requerido</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary btn-with-icon" 
+                  ng-disabled="ctrl.isSubmitted">
+                  <i ng-show="ctrl.isSubmitted" class="fa fa-refresh fa-spin"></i>
+                  Ingresar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>
+
+<script src="scripts/vendor.js"></script>
+
+<script src="scripts/app-b237e424ae.js"></script>
+<script src=""></script>
+</body>
+</html>

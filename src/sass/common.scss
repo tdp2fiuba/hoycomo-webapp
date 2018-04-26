@@ -37,6 +37,12 @@
   opacity: 1;
 }
 
+.fadeIf {
+    .row {
+        padding-left: 10px;
+    }
+}
+
 .profileSliderRow.slider-box {
     min-height: 55px !important;
 }
@@ -55,4 +61,29 @@
     padding-right: 15px;
     padding-left: 15px;
   }
+  
+  .dropdown-toggle {
+    .btn {
+        text-align: left !important;
+    }
+    .caret {
+        position: absolute;
+        height: 10px;
+        top: 50%;
+        right: 10px;
+        margin-top: -2px;
+    }
+  }
+
+  .userpic.userpic-error {
+    border-color: rgb(237, 120, 120);
+    border-style: solid;
+  }
+
+  button.btn.btn-default.btn-error {
+    border-color: rgb(237, 120, 120);
+    border-style: solid;
+    border-width: 1px;
+  }
+
   

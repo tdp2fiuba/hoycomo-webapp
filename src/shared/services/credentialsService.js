@@ -6,10 +6,7 @@
         this.$get = function ($http, $cookies, $window) {
             var store_id = $cookies.get('store_id');
 
-            if (!store_id) {
-                
-                // $window.location.href = $window.location.origin + "/auth.html";
-            }
+            // TODO: Implementar redirect en caso de que entre por URL sin credenciales
 
             var login = function (credentials) {
                 return $http({
