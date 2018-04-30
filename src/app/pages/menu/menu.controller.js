@@ -49,9 +49,15 @@
 
         $scope.isSubmitted = false;
         $scope.itemName = null;
+        $scope.itemDescription = null;
         $scope.itemPrice = null;
         $scope.itemDiscount = null;
         $scope.filepreviews = [];
+        $scope.itemGarnishes = null;
+        $scope.suitableForCeliac = false;
+        $scope.suitableForDiabetic = false;
+        $scope.suitableForVegan = false;
+        $scope.suitableForVegetarian = false;
         $scope.toastOptions = {
             autoDismiss: false,
             positionClass: 'toast-top-left',
@@ -75,12 +81,17 @@
 
         $scope.setFormScope = function (form) {
             $scope.formScope = form;
-        }
+        };
         $scope.resetNewItemForm = function () {
             $scope.filepreviews = [];
             $scope.formScope.itemName = null;
+            $scope.formScope.itemDescription = null;
             $scope.formScope.itemPrice = null;
             $scope.formScope.itemDiscount = null;
+            $scope.formScope.suitableForCeliac = false;
+            $scope.formScope.suitableForDiabetic = false;
+            $scope.formScope.suitableForVegan = false;
+            $scope.formScope.suitableForVegetarian = false;
             $scope.formScope.newMenuItemForm.$setPristine();
             $scope.formScope.newMenuItemForm.$setUntouched();
         };
@@ -113,6 +124,7 @@
 
             var item = {
                 name: self.itemName,
+                description: self.itemDescription,
                 price: self.itemPrice,
                 discount: self.itemDiscount | 0,
                 pictures: self.filepreviews.map(base64File => {
@@ -120,7 +132,12 @@
                         type: base64File.split(',')[0].match(/\/(.*);/)[1],
                         data: base64File
                     }
-                })
+                }),
+                garnishes: self.itemGarnishes ? self.itemGarnishes.split(",") : [],
+                celiac: self.suitableForCeliac,
+                diabetic: self.suitableForDiabetic,
+                vegan: self.suitableForVegan,
+                vegetarian: self.suitableForVegetarian
             };
 
             MenuService.addItem(item)

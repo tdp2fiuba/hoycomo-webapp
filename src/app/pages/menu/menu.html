@@ -38,6 +38,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="inputDescription" class="col-sm-2 control-label">Descripción</label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" ng-model="itemDescription" id="inputDescription" name="itemDescription"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="inputPrice" class="col-sm-2 control-label">Precio</label>
                     <div class="col-sm-2">
                         <input type="number" required class="form-control" ng-model="itemPrice" id="inputPrice" name="itemPrice" placeholder="$" min="0">
@@ -69,6 +75,41 @@
                     <span class="col-sm-2 control-label"></span>
                     <div class="col-sm-3" ng-repeat="filepreview in filepreviews">
                         <img ng-src="{{filepreviews[$index]}}" class="img-responsive" ng-show="filepreview"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputGarnishes" class="col-sm-2 control-label">Guarniciones</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" tag-input="warning" data-role="tagsinput" placeholder="Agregar guarnición" ng-model="itemGarnishes" name="itemGarnishes" id="inputGarnishes" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputSuitableFor" class="col-sm-2 control-label">Apto para</label>
+                    <div class="col-sm-6" id="inputSuitableFor">
+                        <div class="col-sm-6">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" id="celiacCheckbox" value="celiac" ng-model="suitableForCeliac" ng-value="false">
+                                <span>Celíacos</span>
+                            </label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" id="diabeticCheckbox" value="diabetic" ng-model="suitableForDiabetic" ng-value="false">
+                                <span>Diabéticos</span>
+                            </label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" id="veganCheckbox" value="vegan" ng-model="suitableForVegan" ng-value="false">
+                                <span>Veganos</span>
+                            </label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="checkbox-inline custom-checkbox nowrap">
+                                <input type="checkbox" id="vegetarianCheckbox" value="vegetarian" ng-model="suitableForVegetarian" ng-value="false">
+                                <span>Vegetarianos</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
