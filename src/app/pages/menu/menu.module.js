@@ -2,7 +2,9 @@
     'use strict';
 
     angular.module('BlurAdmin.pages.menu', [])
-        .config(routeConfig);
+        .config(routeConfig)
+        //.constant('SERVER_URL','https://hoycomo-server.herokuapp.com');
+        .constant('SERVER_URL','http://localhost:8080');
 
     /** @ngInject */
     function routeConfig($stateProvider) {

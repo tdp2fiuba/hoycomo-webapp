@@ -3,11 +3,11 @@
 
     angular.module('BlurAdmin').service('storeService', storeService);
 
-    function storeService($http) {
+    function storeService($http, SERVER_URL) {
         var saveProfile = function (store) {
             return $http({
                 method: 'PUT',
-                url: 'https://hoycomo-server.herokuapp.com/api/store/' + store.id,
+                url: SERVER_URL +'/api/store/' + store.id,
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -23,7 +23,7 @@
         var getStore = function (store_id) {
             return $http({
                 method: 'GET',
-                url: 'https://hoycomo-server.herokuapp.com/api/store/' + store_id,
+                url: SERVER_URL + '/api/store/' + store_id,
                 headers: {
                     'Content-Type': 'application/json'
                 },

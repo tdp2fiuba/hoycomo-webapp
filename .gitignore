@@ -10,3 +10,5 @@ package-lock.json
 #Folders
 .vscode/
 .idea/
+.tmp/
+release/

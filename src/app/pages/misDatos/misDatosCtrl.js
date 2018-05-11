@@ -96,7 +96,6 @@
             type: 'error',
             timeOut: '2000',
             extendedTimeOut: '2000',
-            allowHtml: false,
             closeButton: false,
             tapToDismiss: true,
             progressBar: false,
@@ -149,7 +148,7 @@
                         self.profile.logoType = logoFileParts[logoFileParts.length - 1];
                     }
 
-                    self.profile.storeFoodTypes = profile.foodTypes.map(function(item) { return { id: item, label: item  }});
+                    self.profile.storeFoodTypes = profile.food_types.map(function(item) { return { id: item, label: item  }});
                 })
             }).catch(function (err) {
                 $scope.loading = false;

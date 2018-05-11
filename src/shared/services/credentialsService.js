@@ -1,38 +1,45 @@
 (function() {
     'use strict';
     
-    angular.module('sharedServices').provider('credentialsService', function () {
+    angular.module('sharedServices').provider('credentialsService', ['SERVER_URL',function () {
 
-        this.$get = function ($http, $cookies, $window) {
-            var store_id = $cookies.get('store_id');
+        this.$get = function ($http, $cookies, $window, SERVER_URL) {
+            var token = $cookies.get('session_token');
 
-            // TODO: Implementar redirect en caso de que entre por URL sin credenciales
+            if (!token){
+                console.log("Paso por credentials");
+                $window.location.href = $window.location.origin + "/auth.html";
+            }
+
+            function _getStore() {
+                return $cookies.getObject('store');
+            }
 
             var login = function (credentials) {
                 return $http({
                         method: 'POST',
-                        url: 'https://hoycomo-server.herokuapp.com/api/login',
+                        //url: SERVER_URL + '/api/login',
+                        url: SERVER_URL + '/api/store/auth',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         data: credentials
-                    })
-            }
+                }).then (response => {
+                    $cookies.put('session_token', response.data.token);
+                    $cookies.putObject('store', response.data.store);
+                    //Promise.resolve(response);
+                })
+            };
 
-            var saveProfileCookie = function (store_id) {
-                $cookies.put('store_id', store_id);
-            }
+            var getStoreId = function () {
+                return _getStore().id;
+            };
 
-            var getUser = function () {
-                return $cookies.get('store_id');
-            }
-        
             return {
                 login: login,
-                saveProfileCookie: saveProfileCookie,
-                getUser: getUser
+                getUser: getStoreId
             }
         }
-    });
+    }]);
 
 })();
