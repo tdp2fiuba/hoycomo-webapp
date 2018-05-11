@@ -3,7 +3,7 @@
 
     angular.module('BlurAdmin').service('storeService', storeService);
 
-    function storeService($http, SERVER_URL) {
+    function storeService($http, credentialsService,SERVER_URL) {
         var saveProfile = function (store) {
             return $http({
                 method: 'PUT',
@@ -25,6 +25,7 @@
                 method: 'GET',
                 url: SERVER_URL + '/api/store/' + store_id,
                 headers: {
+                    'Authorization': 'Bearer ' + credentialsService.getToken(),
                     'Content-Type': 'application/json'
                 },
             })

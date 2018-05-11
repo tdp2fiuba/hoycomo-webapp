@@ -15,6 +15,10 @@
                 return $cookies.getObject('store');
             }
 
+            var getToken = function () {
+                return $cookies.get('session_token');
+            };
+
             var login = function (credentials) {
                 return $http({
                         method: 'POST',
@@ -37,7 +41,8 @@
 
             return {
                 login: login,
-                getUser: getStoreId
+                getUser: getStoreId,
+                getToken: getToken
             }
         }
     }]);

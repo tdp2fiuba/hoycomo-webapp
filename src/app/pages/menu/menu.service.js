@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     
-    angular.module('BlurAdmin.pages.menu').provider('MenuService', ['SERVER_URL', function () {
+    angular.module('BlurAdmin.pages.menu').provider('MenuService', function () {
 
         this.$get = function ($http, credentialsService, SERVER_URL) {
 
@@ -13,6 +13,7 @@
                     url: url,
                     params: {count: 100},
                     headers: {
+                        'Authorization': 'Bearer ' + credentialsService.getToken(),
                         'Content-Type': 'application/json'
                     }
                 });
@@ -27,6 +28,7 @@
                         method: 'POST',
                         url: url,
                         headers: {
+                            'Authorization': 'Bearer ' + credentialsService.getToken(),
                             'Content-Type': 'application/json'
                         },
                         data: menuItem
@@ -38,6 +40,6 @@
                 addItem: addItem
             };
         };
-    }]);
+    });
 
 })();
