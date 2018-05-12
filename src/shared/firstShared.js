@@ -1,5 +1,7 @@
 'use strict';
 
 angular.module('sharedServices', [
-  'ng'
-]);
+  'ng',
+  'ngCookies'
+]).constant('SERVER_URL','https://hoycomo-server.herokuapp.com');
+//]).constant('SERVER_URL','http://localhost:8080');

@@ -10,4 +10,9 @@ package-lock.json
 #Folders
 .vscode/
 .idea/
+<<<<<<< HEAD
 release/
+=======
+.tmp/
+release/
+>>>>>>> origin/HC-20

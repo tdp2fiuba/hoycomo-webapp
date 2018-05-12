@@ -106,7 +106,6 @@
             type: 'error',
             timeOut: '2000',
             extendedTimeOut: '2000',
-            allowHtml: false,
             closeButton: false,
             tapToDismiss: true,
             progressBar: false,
