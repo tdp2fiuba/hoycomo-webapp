@@ -20,7 +20,7 @@
             })
             .state('pedidos.pedido', {
             url: '/:id',
-            templateUrl: 'app/pages/components/pedidos/pedido/pedido.html',
+            templateUrl: 'app/pages/pedidos/pedido/pedido.html',
             title: 'Pedido',
             controller: "PedidoCtrl"
         });

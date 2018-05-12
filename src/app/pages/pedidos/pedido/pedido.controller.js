@@ -5,10 +5,20 @@
         .controller('PedidoCtrl', PedidoCtrl);
 
     /** @ngInject */
-    function PedidoCtrl($stateParams, mailMessages) {
-        var vm = this;
-        vm.mail = mailMessages.getMessageById($stateParams.id);
-        vm.label = $stateParams.label;
+    function PedidoCtrl($stateParams,$scope, PedidosService) {
+
+        function getOrder(id){
+            PedidosService.getOrder(id)
+            .then( order => {
+                $scope.order = order;
+            })
+            .catch(err => {
+                console.log("eerro al traer el pedido " +err);
+            })
+        }
+
+        getOrder($stateParams.id);
+        console.log($scope.order);
     }
 
 })();

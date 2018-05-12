@@ -19,5 +19,5 @@ angular.module('BlurAdmin', [
   'ngCookies',
   'sharedServices',
   'angularjs-dropdown-multiselect'
-//]).constant('SERVER_URL','https://hoycomo-server.herokuapp.com');
-]).constant('SERVER_URL','http://localhost:8080');
+]).constant('SERVER_URL','https://hoycomo-server.herokuapp.com');
+//]).constant('SERVER_URL','http://localhost:8080');

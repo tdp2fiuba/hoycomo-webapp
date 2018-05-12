@@ -220,26 +220,26 @@
                 <table class="table-hover">
                     <tr ng-repeat="order in orders"
                         class="side-message-navigation-item little-human shineHover">
-                        <td><span style="font-weight: 400;">{{order.id}}</span></td>
-                        <td  class="photo-td" ui-sref="pedidos.pedido({id: order.id})"><img src="{{order.client.avatar}}" class="little-human-picture"></td>
-                        <td>
+                        <td ui-sref="pedidos.pedido({id: order.id})"><span style="font-weight: 400;">{{order.id}}</span></td>
+                        <td class="photo-td" ui-sref="pedidos.pedido({id: order.id})"><img src="{{order.client.avatar}}" class="little-human-picture"></td>
+                        <td ui-sref="pedidos.pedido({id: order.id})">
                             <div class="name-container">
                                 <div><span class="name" style="font-weight: 400;">{{order.client.name}}</span></div>
                                 <div><span class="label label-{{order.state.label}}">{{order.state.name}}</span></div>
                             </div>
                         </td>
-                        <td>
+                        <td ui-sref="pedidos.pedido({id: order.id})">
                             <div class="additional-info">
                                 <span class="subject" style="font-weight: bold;"> {{order.dishes | plainText}}</span>
                             </div>
                         </td>
-                        <td  ui-sref="components.mail.detail({id: m.id, label: listCtrl.label})">
+                        <td ui-sref="pedidos.pedido({id: order.id})">
                             <div class="mail-body-part" style="font-weight: bold;">{{order.address}}</div>
                         </td>
-                        <td  ui-sref="components.mail.detail({id: m.id, label: listCtrl.label})">
+                        <td  ui-sref="pedidos.pedido({id: order.id})">
                             <div class="mail-body-part" style="font-weight: 400;">${{order.price}} | {{order.payMethod}} <br ng-on="order.notes"/> {{order.notes}}</div>
                         </td>
-                        <td style="font-size: 13px;">
+                        <td ui-sref="pedidos.pedido({id: order.id})" style="font-size: 13px;">
                             <span>{{order.time}}</span>
                         </td>
                     </tr>

@@ -22,9 +22,25 @@
                 });
             };
 
+            const getOrderByID = function (id) {
+                const url = SERVER_URL + '/api/order/' + id;
+                return $http({
+                    method: 'GET',
+                    url: url,
+                    headers: {
+                        'Authorization': 'Bearer ' + credentialsService.getToken(),
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    return Promise.resolve(response.data);
+                });
+            };
+
         
             return {
-                getOrders: getOrders
+                getOrders: getOrders,
+                getOrder: getOrderByID
             };
         };
     });

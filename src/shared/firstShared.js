@@ -3,5 +3,5 @@
 angular.module('sharedServices', [
   'ng',
   'ngCookies'
-//]).constant('SERVER_URL','https://hoycomo-server.herokuapp.com');
-]).constant('SERVER_URL','http://localhost:8080');
+]).constant('SERVER_URL','https://hoycomo-server.herokuapp.com');
+//]).constant('SERVER_URL','http://localhost:8080');
