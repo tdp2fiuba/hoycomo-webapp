@@ -47,7 +47,17 @@
             return sliderValues.findIndex(function (item) { return item === self.parsedStartTime });
         }
         this.getEndTime = function () {
-            return sliderValues.findIndex(function (item) { return item === self.parsedEndTime })
+            var i = sliderValues.findIndex(function (item) { 
+                if (self.endTime === '24:00:00' && item === '24:00') {
+                    return true;
+                }
+                if (self.endTime === '24:00:00' && item === '00:00') {
+                    return false;
+                }
+                return item === self.parsedEndTime 
+            });
+
+            return i;
         }
     }
 
@@ -138,6 +148,7 @@
                     self.profile.id = profile.id;
                     self.profile.name = profile.name;
                     self.profile.availability = profile.availability;
+
                     $scope.profileLoaded = profile ? !!profile.availability.monday.start_time : false;
                     
                     if (profile.availability) {
@@ -149,7 +160,7 @@
                         self.profile.logoType = logoFileParts[logoFileParts.length - 1];
                     }
 
-                    self.profile.storeFoodTypes = profile.foodTypes.map(function(item) { return { id: item, label: item  }});
+                    self.profile.storeFoodTypes = profile.food_types.map(function(item) { return { id: item, label: item  }});
                 })
             }).catch(function (err) {
                 $scope.loading = false;
