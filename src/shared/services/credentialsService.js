@@ -5,8 +5,7 @@
 
         this.$get = function ($http, $cookies, $window, SERVER_URL) {
             var token = $cookies.get('session_token');
-
-            if (!token){
+            if (!token && $window.location.pathname !== '/auth.html'){
                 console.log("Paso por credentials");
                 $window.location.href = $window.location.origin + "/auth.html";
             }

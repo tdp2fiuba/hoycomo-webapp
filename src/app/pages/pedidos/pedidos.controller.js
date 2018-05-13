@@ -5,10 +5,27 @@
         .controller('PedidosController', PedidosController);
 
     /** @ngInject */
-    function PedidosController($scope, $window, toastr, toastrConfig, PedidosService) {
+    function PedidosController($scope, $window, toastr, toastrConfig, PedidosService, $filter) {
         $scope.loading = true;
         $scope.emptyMessage = "No hay ningún pedido para tu comercio";
         $scope.orders = [];
+        $scope.states = [
+            { id: 1, status: "TAKEN", text: "Aceptado" },
+            { id: 2, status: "PREPARATION", text: "En Preparación" },
+            { id: 3, status: "SENT", text: "Despachado" },
+            { id: 4, status: "DELIVERED", text: "Entregado" },
+            { id: 5, status: "CANCELLED", text: "Cancelado" },
+        ];
+
+
+
+        $scope.showStatus = function(order) {
+            var selected = [];
+            if (order.state) {
+                selected = $filter('filter')($scope.states, {status: order.state.state});
+            }
+            return selected.length ? selected[0].text : 'Not set';
+        };
 
         function processState(states) {
             let _state = {
@@ -42,6 +59,7 @@
                     _state.name = 'Cancelado';
                     break;
             }
+            _state.state = state.state;
             return _state;
         }
 
@@ -54,13 +72,17 @@
             });
 
 
-            order.items.forEach(function (item) {
+            order.items.forEach(function (item, index) {
                 let dish = orderDishes[item.id];
                 dishes += item.quantity + " " + dish.name;
 
                 if (item.garnishes) dishes += " c/" + item.garnishes;
 
                 if (item.description) dishes += " (" + item.description + ")";
+
+                if (index !== order.items.length - 1) {
+                    dishes += "\n";
+                }
             });
 
             return dishes;
@@ -136,82 +158,7 @@
                 $scope.loading = false;
             })
         }
-
-
-
-
         getOrders();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        $scope.metricsTableData = [
-            {
-                image: 'app/browsers/chrome.svg',
-                browser: 'Google Chrome',
-                visits: '10,392',
-                isVisitsUp: true,
-                purchases: '4,214',
-                isPurchasesUp: true,
-                percent: '45%',
-                isPercentUp: true
-            },
-            {
-                image: 'app/browsers/firefox.svg',
-                browser: 'Mozilla Firefox',
-                visits: '7,873',
-                isVisitsUp: true,
-                purchases: '3,031',
-                isPurchasesUp: false,
-                percent: '28%',
-                isPercentUp: true
-            },
-            {
-                image: 'app/browsers/ie.svg',
-                browser: 'Internet Explorer',
-                visits: '5,890',
-                isVisitsUp: false,
-                purchases: '2,102',
-                isPurchasesUp: false,
-                percent: '17%',
-                isPercentUp: false
-            },
-            {
-                image: 'app/browsers/safari.svg',
-                browser: 'Safari',
-                visits: '4,001',
-                isVisitsUp: false,
-                purchases: '1,001',
-                isPurchasesUp: false,
-                percent: '14%',
-                isPercentUp: true
-            },
-            {
-                image: 'app/browsers/opera.svg',
-                browser: 'Opera',
-                visits: '1,833',
-                isVisitsUp: true,
-                purchases: '83',
-                isPurchasesUp: true,
-                percent: '5%',
-                isPercentUp: false
-            }
-        ];
     }
 
 })();

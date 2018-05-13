@@ -186,64 +186,59 @@
                 <i class="ion-android-sad" style="font-size: 50px;"></i>
                 <p style="margin-top: 10px;font-size: 25px;">{{emptyMessage}}</p>
             </div>
-            <!--
-            <table class="table table-hover" ng-if="orders.length">
-                <thead>
-                <tr class="black-muted-bg">
-                    <th>ID</th>
-                    <th>Fecha</th>
-                    <th>Dirección</th>
-                    <th>Platos</th>
-                    <th>Cliente</th>
-                    <th>Notas</th>
-                    <th>Precio</th>
-                    <th>Medio de pago</th>
-                    <th>Estado</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="order in orders" class="no-top-border">
-                    <td>{{order.id}}</td>
-                    <td>{{order.time}}</td>
-                    <td>{{order.address}}</td>
-                    <td>{{order.dishes}}</td>
-                    <td>{{order.client.name}}</td>
-                    <td>{{order.notes}}</td>
-                    <td>${{order.price}}</td>
-                    <td>{{order.payMethod}}</td>
-                    <td><button class="status-button btn btn-xs btn-{{order.state.status}}">{{order.state.name}}</button></td>
-                </tr>
-                </tbody>
-            </table>
-            -->
-            <div class="messages" ng-if="orders.length">
-                <table class="table-hover">
-                    <tr ng-repeat="order in orders"
-                        class="side-message-navigation-item little-human shineHover">
-                        <td ui-sref="pedidos.pedido({id: order.id})"><span style="font-weight: 400;">{{order.id}}</span></td>
-                        <td class="photo-td" ui-sref="pedidos.pedido({id: order.id})"><img src="{{order.client.avatar}}" class="little-human-picture"></td>
-                        <td ui-sref="pedidos.pedido({id: order.id})">
-                            <div class="name-container">
-                                <div><span class="name" style="font-weight: 400;">{{order.client.name}}</span></div>
-                                <div><span class="label label-{{order.state.label}}">{{order.state.name}}</span></div>
-                            </div>
-                        </td>
-                        <td ui-sref="pedidos.pedido({id: order.id})">
-                            <div class="additional-info">
-                                <span class="subject" style="font-weight: bold;"> {{order.dishes | plainText}}</span>
-                            </div>
-                        </td>
-                        <td ui-sref="pedidos.pedido({id: order.id})">
-                            <div class="mail-body-part" style="font-weight: bold;">{{order.address}}</div>
-                        </td>
-                        <td  ui-sref="pedidos.pedido({id: order.id})">
-                            <div class="mail-body-part" style="font-weight: 400;">${{order.price}} | {{order.payMethod}} <br ng-on="order.notes"/> {{order.notes}}</div>
-                        </td>
-                        <td ui-sref="pedidos.pedido({id: order.id})" style="font-size: 13px;">
-                            <span>{{order.time}}</span>
-                        </td>
-                    </tr>
-                </table>
+            <div class="horizontal-scroll" ng-if="orders.length" >
+                <table class="table table-bordered table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="fit">#</th>
+                            <th class="fit">Nombre Cliente</th>
+                            <th class="fit">Estado</th>
+                            <th class="fit">Pedido</th>
+                            <th class="fit">Dirección</th>
+                            <th class="fit">Precio</th>
+                            <th class="fit">Pago</th>
+                            <th class="fit">Notas</th>
+                            <th class="fit">Tiempo</th>
+                            <th class="fit">Editar Pedido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="order in orders" class="editable-row">
+                            <td class="fit">{{order.id}}</td>
+                            <td class="fit"><span >{{order.client.name}}</span></td>
+                            <td class="select-td fit">
+                                    <span editable-select="order.status" 
+                                          e-name="status" 
+                                          e-form="rowform" 
+                                          e-selectpicker
+                                          e-ng-options="s.status as s.text for s in states">
+                                      {{ showStatus(order) }}
+                                    </span>
+                                </td>
+                            <td class="fit"> <span ><pre class="pre-pedidos">{{order.dishes}}</pre></span></td>
+                            <td class="fit"><span >{{order.address}}</span></td>
+                            <td class="fit"><span >${{order.price}}</span></td>
+                            <td class="fit"><span >{{order.payMethod}}</span></td>
+                            <td class="fit"><span >{{order.notes}}</span></td>
+                            <td class="fit"><span >{{order.time}}</span></td>
+
+                            <td>
+                                <form editable-form name="rowform" ng-show="rowform.$visible" class="form-buttons form-inline"
+                                    >
+                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary editable-table-button btn-xs">
+                                        Save
+                                    </button>
+                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default editable-table-button btn-xs">
+                                        Cancel
+                                    </button>
+                                </form>
+                                <div class="buttons" ng-show="!rowform.$visible">
+                                    <button class="btn btn-primary editable-table-button btn-xs" ng-click="rowform.$show()">Edit</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
             </div>
         </div>
     </div>

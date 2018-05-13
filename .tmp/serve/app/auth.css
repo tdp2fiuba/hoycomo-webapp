@@ -64,6 +64,20 @@ button.btn.btn-default.btn-error {
   border-style: solid;
   border-width: 1px; }
 
+.table td.fit,
+.table th.fit {
+  white-space: nowrap;
+  width: 1%; }
+
+pre.pre-pedidos {
+  border: none;
+  background-color: transparent;
+  color: #666666;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  margin: 0;
+  padding: 8px; }
+
 @font-face {
   font-family: 'socicon';
   src: url("../assets/fonts/socicon.eot");
