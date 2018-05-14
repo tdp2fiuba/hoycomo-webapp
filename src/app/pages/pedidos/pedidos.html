@@ -206,8 +206,8 @@
                         <tr ng-repeat="order in orders" class="editable-row">
                             <td class="fit">{{order.id}}</td>
                             <td class="fit"><span >{{order.client.name}}</span></td>
-                            <td class="select-td fit">
-                                    <span editable-select="order.status" 
+                            <td class="select-td estado">
+                                    <span editable-select="order.state.state" 
                                           e-name="status" 
                                           e-form="rowform" 
                                           e-selectpicker
@@ -219,21 +219,31 @@
                             <td class="fit"><span >{{order.address}}</span></td>
                             <td class="fit"><span >${{order.price}}</span></td>
                             <td class="fit"><span >{{order.payMethod}}</span></td>
-                            <td class="fit"><span >{{order.notes}}</span></td>
+                            <td class="notes"><span >{{order.notes}}</span></td>
                             <td class="fit"><span >{{order.time}}</span></td>
 
                             <td>
-                                <form editable-form name="rowform" ng-show="rowform.$visible" class="form-buttons form-inline"
-                                    >
-                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary editable-table-button btn-xs">
+                                <form editable-form name="rowform" 
+                                      ng-show="rowform.$visible" 
+                                      class="form-buttons form-inline"
+                                      ng-submit="changeState() && rowform.$hide()">
+                                    <button type="submit" 
+                                            ng-disabled="rowform.$waiting" 
+                                            class="btn btn-primary editable-table-button btn-xs">
                                         Save
                                     </button>
-                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default editable-table-button btn-xs">
+                                    <button type="button" 
+                                            ng-disabled="rowform.$waiting" 
+                                            ng-click="rowform.$cancel()" 
+                                            class="btn btn-default editable-table-button btn-xs">
                                         Cancel
                                     </button>
                                 </form>
-                                <div class="buttons" ng-show="!rowform.$visible">
-                                    <button class="btn btn-primary editable-table-button btn-xs" ng-click="rowform.$show()">Edit</button>
+                                <div class="buttons" ng-show="!rowform.$visible && order.state.name !== 'Entregado'">
+                                    <button class="btn btn-primary editable-table-button btn-xs" 
+                                            ng-click="rowform.$show()">
+                                            Edit
+                                    </button>
                                 </div>
                             </td>
                         </tr>

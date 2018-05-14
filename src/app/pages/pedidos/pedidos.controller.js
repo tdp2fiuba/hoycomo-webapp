@@ -17,7 +17,10 @@
             { id: 5, status: "CANCELLED", text: "Cancelado" },
         ];
 
-
+        $scope.changeState = function() {
+            
+            this.rowform.$hide();
+        }
 
         $scope.showStatus = function(order) {
             var selected = [];
