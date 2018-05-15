@@ -2,7 +2,12 @@
     'use strict';
 
     angular.module('BlurAdmin.pages.pedidos', [])
-        .config(routeConfig);
+        .config(routeConfig)
+    .filter('newlines', function() {
+        return function(text) {
+            return text.split(/\n/g);
+        };
+    });
 
     /** @ngInject */
     function routeConfig($stateProvider) {

@@ -76,9 +76,9 @@
                 let dish = orderDishes[item.id];
                 dishes += item.quantity + " " + dish.name;
 
-                if (item.garnishes) dishes += " c/" + item.garnishes;
+                if (item.garnish) dishes += " c/" + item.garnish;
 
-                if (item.description) dishes += " (" + item.description + ")";
+                if (item.comments) dishes += " (" + item.comments + ")";
 
                 if (index !== order.items.length - 1) {
                     dishes += "\n";
@@ -139,7 +139,8 @@
 
                     $scope.orders.push({
                         id:order.id,
-                        time: processDate(new Date(order.register_timestamp)), //parse this
+                        relativeTime: processDate(new Date(order.register_timestamp)), //parse this
+                        time: new Date(order.register_timestamp).toLocaleString(),
                         address: order.address.name,
                         dishes: processDishes(order),
                         client: {name : order.user.first_name + " " + order.user.last_name, avatar: order.user.avatar},

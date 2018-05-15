@@ -186,58 +186,51 @@
                 <i class="ion-android-sad" style="font-size: 50px;"></i>
                 <p style="margin-top: 10px;font-size: 25px;">{{emptyMessage}}</p>
             </div>
-            <div class="horizontal-scroll" ng-if="orders.length" >
-                <table class="table table-bordered table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th class="fit">#</th>
-                            <th class="fit">Nombre Cliente</th>
-                            <th class="fit">Estado</th>
-                            <th class="fit">Pedido</th>
-                            <th class="fit">Dirección</th>
-                            <th class="fit">Precio</th>
-                            <th class="fit">Pago</th>
-                            <th class="fit">Notas</th>
-                            <th class="fit">Tiempo</th>
-                            <th class="fit">Editar Pedido</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="order in orders" class="editable-row">
-                            <td class="fit">{{order.id}}</td>
-                            <td class="fit"><span >{{order.client.name}}</span></td>
-                            <td class="select-td fit">
-                                    <span editable-select="order.status" 
-                                          e-name="status" 
-                                          e-form="rowform" 
-                                          e-selectpicker
-                                          e-ng-options="s.status as s.text for s in states">
-                                      {{ showStatus(order) }}
-                                    </span>
-                                </td>
-                            <td class="fit"> <span ><pre class="pre-pedidos">{{order.dishes}}</pre></span></td>
-                            <td class="fit"><span >{{order.address}}</span></td>
-                            <td class="fit"><span >${{order.price}}</span></td>
-                            <td class="fit"><span >{{order.payMethod}}</span></td>
-                            <td class="fit"><span >{{order.notes}}</span></td>
-                            <td class="fit"><span >{{order.time}}</span></td>
+            <div class="table-responsive" ng-if="orders.length" >
+                <table class="table table-hover table-condensed" style="border-bottom: 1px solid gainsboro;">
+                    <tr ng-repeat="order in orders" class="editable-row">
+                        <td style="vertical-align: middle;padding-top:5px;">{{order.id}}</td>
+                        <td style="padding-top: 4px;">
+                            <img ng-src="{{order.client.avatar}}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 4px;">
+                        </td>
+                        <td style="padding: 5px 8px 0 0;min-width: 110px;">
+                            <div>
+                                <div style="line-height: 23px;"><span>{{order.client.name}}</span></div>
+                                <div style="line-height: 23px;"><span style="font-size: 12px;cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{order.time}}">{{order.relativeTime}}</span></div>
+                            </div>
+                        </td>
+                        <td style="line-height: 20px;min-width: 150px;padding-top: 5px;"><span >{{order.address}}</span> <br ng-if="order.notes"/> <span ng-if="order.notes" style="font-size: 12px;font-style: italic;"><b>Notas: </b>{{order.notes}}</span></td>
+                        <td style="line-height: 16px;padding: 5px 8px 0 8px;">
+                            <span ng-repeat="line in (order.dishes | newlines) track by $index">
+                                <p style="margin: 0 0 10px 0;"> {{line}}</p>
+                            </span>
+                        </td>
+                        <td style="line-height: 23px;padding-top: 5px;"><span ><b>${{order.price}}</b></span> <p style="margin:0;">{{order.payMethod}}</p></td>
 
-                            <td>
-                                <form editable-form name="rowform" ng-show="rowform.$visible" class="form-buttons form-inline"
-                                    >
-                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary editable-table-button btn-xs">
-                                        Save
-                                    </button>
-                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default editable-table-button btn-xs">
-                                        Cancel
-                                    </button>
-                                </form>
-                                <div class="buttons" ng-show="!rowform.$visible">
-                                    <button class="btn btn-primary editable-table-button btn-xs" ng-click="rowform.$show()">Edit</button>
-                                </div>
+                        <td class="select-td" style="padding-top: 5px;min-width: 150px;text-align: center;vertical-align: middle;">
+                                <span editable-select="order.status"
+                                      e-name="status"
+                                      e-form="rowform"
+                                      e-selectpicker
+                                      e-ng-options="s.status as s.text for s in states">
+                                  {{ showStatus(order) }}
+                                </span>
                             </td>
-                        </tr>
-                    </tbody>
+                        <td style="vertical-align: middle;padding-top: 5px;text-align: center;min-width: 170.8px;">
+                            <form editable-form name="rowform" ng-show="rowform.$visible" class="form-buttons form-inline" style="border-left: 1px solid gainsboro;"
+                                >
+                                <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary editable-table-button btn-xs">
+                                    Guardar
+                                </button>
+                                <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default editable-table-button btn-xs">
+                                    Cancelar
+                                </button>
+                            </form>
+                            <div class="buttons" ng-show="!rowform.$visible" style="border-left: 1px solid gainsboro;">
+                                <button class="btn btn-primary editable-table-button btn-xs" ng-click="rowform.$show()">Editar</button>
+                            </div>
+                        </td>
+                    </tr>
                   </table>
             </div>
         </div>
