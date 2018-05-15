@@ -14,7 +14,7 @@
             { id: 2, status: "PREPARATION", text: "En Preparación" },
             { id: 3, status: "SENT", text: "Despachado" },
             { id: 4, status: "DELIVERED", text: "Entregado" },
-            { id: 5, status: "CANCELLED", text: "Cancelado" },
+            { id: -1, status: "CANCELLED", text: "Cancelado" },
         ];
 
         $scope.renderNextState = function (currentStateId) {
@@ -23,24 +23,29 @@
 
         $scope.manageTransition = function (order) {
             var currentStateId = order.state.id;
-            var oldState = $scope.states.find(function (state) { return state.id === currentStateId; }).text;
-            var newState = $scope.states.find(function (state) { return state.id === (currentStateId + 1); }).text;
+            var oldState = $scope.states.find(function (state) { return state.id === currentStateId; })
+            var newState = $scope.states.find(function (state) { return state.id === (currentStateId + 1); });
             var modalInstance = $uibModal.open({
                 templateUrl: '/app/pages/pedidos/pedido.modal.html',
                 controller: 'PedidoModalCtrl',
                 controllerAs: 'ctrl',
                 resolve: {
                   oldState: function () {
-                      return oldState;
+                      return oldState.text;
                   },
                   newState: function () {
-                      return newState;
+                      return newState.text;
                   }
                 }
             });
 
             modalInstance.result.then(function () {
                 order.processingTransition = true;
+                setTimeout(function () {
+                    order.state = processState([{ state: newState.status }]);
+                    order.processingTransition = false
+                    $scope.$apply();
+                }, 2000);
             }).catch(function () {
                 
             })
