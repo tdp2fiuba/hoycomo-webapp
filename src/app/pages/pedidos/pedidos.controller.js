@@ -66,11 +66,7 @@
         function processDishes(order) {
             let dishes = "";
 
-            let orderDishes = {};
-            order.dishes.forEach(function (dish) {
-                orderDishes[dish.id] = dish;
-            });
-
+            let orderDishes = order.dishes;
 
             order.items.forEach(function (item, index) {
                 let dish = orderDishes[item.id];
