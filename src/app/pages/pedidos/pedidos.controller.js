@@ -5,7 +5,7 @@
         .controller('PedidosController', PedidosController);
 
     /** @ngInject */
-    function PedidosController($scope, $window, toastr, toastrConfig, PedidosService, $filter) {
+    function PedidosController($scope, $window, toastr, toastrConfig, PedidosService, $filter, $uibModal) {
         $scope.loading = true;
         $scope.emptyMessage = "No hay ningún pedido para tu comercio";
         $scope.orders = [];
@@ -16,6 +16,35 @@
             { id: 4, status: "DELIVERED", text: "Entregado" },
             { id: 5, status: "CANCELLED", text: "Cancelado" },
         ];
+
+        $scope.renderNextState = function (currentStateId) {
+            return "Pasar a " + this.states.find(function (state) { return state.id === currentStateId + 1; }).text;
+        }
+
+        $scope.manageTransition = function (order) {
+            var currentStateId = order.state.id;
+            var oldState = $scope.states.find(function (state) { return state.id === currentStateId; }).text;
+            var newState = $scope.states.find(function (state) { return state.id === (currentStateId + 1); }).text;
+            var modalInstance = $uibModal.open({
+                templateUrl: '/app/pages/pedidos/pedido.modal.html',
+                controller: 'PedidoModalCtrl',
+                controllerAs: 'ctrl',
+                resolve: {
+                  oldState: function () {
+                      return oldState;
+                  },
+                  newState: function () {
+                      return newState;
+                  }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                order.processingTransition = true;
+            }).catch(function () {
+                
+            })
+        }
 
         $scope.changeState = function() {
             
@@ -62,6 +91,7 @@
                     _state.name = 'Cancelado';
                     break;
             }
+            _state.id = $scope.states.find(function (item) { return item.status === state.state; }).id;
             _state.state = state.state;
             return _state;
         }
@@ -69,19 +99,15 @@
         function processDishes(order) {
             let dishes = "";
 
-            let orderDishes = {};
-            order.dishes.forEach(function (dish) {
-                orderDishes[dish.id] = dish;
-            });
-
+            let orderDishes = order.dishes;
 
             order.items.forEach(function (item, index) {
                 let dish = orderDishes[item.id];
                 dishes += item.quantity + " " + dish.name;
 
-                if (item.garnishes) dishes += " c/" + item.garnishes;
+                if (item.garnish) dishes += " c/" + item.garnish;
 
-                if (item.description) dishes += " (" + item.description + ")";
+                if (item.comments) dishes += " (" + item.comments + ")";
 
                 if (index !== order.items.length - 1) {
                     dishes += "\n";
@@ -142,7 +168,8 @@
 
                     $scope.orders.push({
                         id:order.id,
-                        time: processDate(new Date(order.register_timestamp)), //parse this
+                        relativeTime: processDate(new Date(order.register_timestamp)), //parse this
+                        time: new Date(order.register_timestamp).toLocaleString(),
                         address: order.address.name,
                         dishes: processDishes(order),
                         client: {name : order.user.first_name + " " + order.user.last_name, avatar: order.user.avatar},

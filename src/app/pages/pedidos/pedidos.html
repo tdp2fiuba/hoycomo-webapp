@@ -3,178 +3,7 @@
         <div ng-if="loading">
 
             <p style="text-align: center;padding: 10px 0 0 0; font-size: 30px;">Cargando pedidos...</p>
-            <style>
-                .cssload-container {
-                    position: relative;
-                    width: 225px;
-                    height: 225px;
-                    display:block;
-                    margin:56px auto;
-                    perspective: 1125px;
-                    -o-perspective: 1125px;
-                    -ms-perspective: 1125px;
-                    -webkit-perspective: 1125px;
-                    -moz-perspective: 1125px;
-                    perspective: 1125px;
-                    -o-perspective: 1125px;
-                    -ms-perspective: 1125px;
-                    -webkit-perspective: 1125px;
-                    -moz-perspective: 1125px;
-                    overflow: hidden;
-                }
-
-                .cube {
-                    position: absolute;
-                    bottom: 50%;
-                    left: 50%;
-                    width: 34px;
-                    height: 34px;
-                    margin-left: -17px;
-                    margin-top: 0;
-                }
-
-                .cube-2d {
-                    background-color: rgb(224,224,224);
-                }
-                .cssload-arc {
-                    position: absolute;
-                    bottom: 50%;
-                    left: 50%;
-                    margin-left: -79px;
-                    width: 158px;
-                    height: 79px;
-                    overflow: hidden;
-                }
-
-                .cssload-arc-cube {
-                    position: absolute;
-                    bottom: -79px;
-                    left: 50%;
-                    margin-left: -79px;
-                    width: 158px;
-                    height: 158px;
-                    border-style: solid;
-                    border-top-color: transparent;
-                    border-right-color: rgb(32,174,146);
-                    border-left-color: transparent;
-                    border-bottom-color: transparent;
-                    border-radius: 50%;
-                    -o-border-radius: 50%;
-                    -ms-border-radius: 50%;
-                    -webkit-border-radius: 50%;
-                    -moz-border-radius: 50%;
-                    box-sizing: border-box;
-                    -o-box-sizing: border-box;
-                    -ms-box-sizing: border-box;
-                    -webkit-box-sizing: border-box;
-                    -moz-box-sizing: border-box;
-                    animation: cssload-arc 2.6s ease-in-out infinite;
-                    -o-animation: cssload-arc 2.6s ease-in-out infinite;
-                    -ms-animation: cssload-arc 2.6s ease-in-out infinite;
-                    -webkit-animation: cssload-arc 2.6s ease-in-out infinite;
-                    -moz-animation: cssload-arc 2.6s ease-in-out infinite;
-                    transform: rotate(-200deg);
-                    -o-transform: rotate(-200deg);
-                    -ms-transform: rotate(-200deg);
-                    -webkit-transform: rotate(-200deg);
-                    -moz-transform: rotate(-200deg);
-                }
-
-                @keyframes cssload-arc {
-                    0% {
-                        border-width: 34px;
-                    }
-                    25% {
-                        border-width: 17px;
-                    }
-                    50% {
-                        transform: rotate(27deg);
-                        border-width: 34px;
-                    }
-                    75% {
-                        border-width: 17px;
-                    }
-                    100% {
-                        border-width: 34px;
-                    }
-                }
-
-                @-o-keyframes cssload-arc {
-                    0% {
-                        border-width: 34px;
-                    }
-                    25% {
-                        border-width: 17px;
-                    }
-                    50% {
-                        -o-transform: rotate(27deg);
-                        border-width: 34px;
-                    }
-                    75% {
-                        border-width: 17px;
-                    }
-                    100% {
-                        border-width: 34px;
-                    }
-                }
-
-                @-ms-keyframes cssload-arc {
-                    0% {
-                        border-width: 34px;
-                    }
-                    25% {
-                        border-width: 17px;
-                    }
-                    50% {
-                        -ms-transform: rotate(27deg);
-                        border-width: 34px;
-                    }
-                    75% {
-                        border-width: 17px;
-                    }
-                    100% {
-                        border-width: 34px;
-                    }
-                }
-
-                @-webkit-keyframes cssload-arc {
-                    0% {
-                        border-width: 34px;
-                    }
-                    25% {
-                        border-width: 17px;
-                    }
-                    50% {
-                        -webkit-transform: rotate(27deg);
-                        border-width: 34px;
-                    }
-                    75% {
-                        border-width: 17px;
-                    }
-                    100% {
-                        border-width: 34px;
-                    }
-                }
-
-                @-moz-keyframes cssload-arc {
-                    0% {
-                        border-width: 34px;
-                    }
-                    25% {
-                        border-width: 17px;
-                    }
-                    50% {
-                        -moz-transform: rotate(27deg);
-                        border-width: 34px;
-                    }
-                    75% {
-                        border-width: 17px;
-                    }
-                    100% {
-                        border-width: 34px;
-                    }
-                }
-            </style>
+            
             <div class="cssload-container">
                 <div class="cssload-arc">
                     <div class="cssload-arc-cube"></div>
@@ -186,68 +15,39 @@
                 <i class="ion-android-sad" style="font-size: 50px;"></i>
                 <p style="margin-top: 10px;font-size: 25px;">{{emptyMessage}}</p>
             </div>
-            <div class="horizontal-scroll" ng-if="orders.length" >
-                <table class="table table-bordered table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th class="fit">#</th>
-                            <th class="fit">Nombre Cliente</th>
-                            <th class="fit">Estado</th>
-                            <th class="fit">Pedido</th>
-                            <th class="fit">Dirección</th>
-                            <th class="fit">Precio</th>
-                            <th class="fit">Pago</th>
-                            <th class="fit">Notas</th>
-                            <th class="fit">Tiempo</th>
-                            <th class="fit">Editar Pedido</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="order in orders" class="editable-row">
-                            <td class="fit">{{order.id}}</td>
-                            <td class="fit"><span >{{order.client.name}}</span></td>
-                            <td class="select-td estado">
-                                    <span editable-select="order.state.state" 
-                                          e-name="status" 
-                                          e-form="rowform" 
-                                          e-selectpicker
-                                          e-ng-options="s.status as s.text for s in states">
-                                      {{ showStatus(order) }}
-                                    </span>
-                                </td>
-                            <td class="fit"> <span ><pre class="pre-pedidos">{{order.dishes}}</pre></span></td>
-                            <td class="fit"><span >{{order.address}}</span></td>
-                            <td class="fit"><span >${{order.price}}</span></td>
-                            <td class="fit"><span >{{order.payMethod}}</span></td>
-                            <td class="notes"><span >{{order.notes}}</span></td>
-                            <td class="fit"><span >{{order.time}}</span></td>
+            <div class="table-responsive" ng-if="orders.length" >
+                <table class="table table-hover table-condensed" style="border-bottom: 1px solid gainsboro;">
+                    <tr ng-repeat="order in orders" class="editable-row">
+                        <td style="vertical-align: middle;padding-top:5px;">{{order.id}}</td>
+                        <td style="padding-top: 4px;">
+                            <img ng-src="{{order.client.avatar}}" style="width: 50px;height: 50px;border-radius: 50%;margin-top: 4px;">
+                        </td>
+                        <td style="padding: 5px 8px 0 0;min-width: 110px;">
+                            <div>
+                                <div style="line-height: 23px;"><span>{{order.client.name}}</span></div>
+                                <div style="line-height: 23px;"><span style="font-size: 12px;cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{order.time}}">{{order.relativeTime}}</span></div>
+                            </div>
+                        </td>
+                        <td style="line-height: 20px;min-width: 150px;padding-top: 5px;"><span >{{order.address}}</span> <br ng-if="order.notes"/> <span ng-if="order.notes" style="font-size: 12px;font-style: italic;"><b>Notas: </b>{{order.notes}}</span></td>
+                        <td style="line-height: 16px;padding: 5px 8px 0 8px;">
+                            <span ng-repeat="line in (order.dishes | newlines) track by $index">
+                                <p style="margin: 0 0 10px 0;"> {{line}}</p>
+                            </span>
+                        </td>
+                        <td style="line-height: 23px;padding-top: 5px;"><span ><b>${{order.price}}</b></span> <p style="margin:0;">{{order.payMethod}}</p></td>
 
-                            <td>
-                                <form editable-form name="rowform" 
-                                      ng-show="rowform.$visible" 
-                                      class="form-buttons form-inline"
-                                      ng-submit="changeState() && rowform.$hide()">
-                                    <button type="submit" 
-                                            ng-disabled="rowform.$waiting" 
-                                            class="btn btn-primary editable-table-button btn-xs">
-                                        Save
-                                    </button>
-                                    <button type="button" 
-                                            ng-disabled="rowform.$waiting" 
-                                            ng-click="rowform.$cancel()" 
-                                            class="btn btn-default editable-table-button btn-xs">
-                                        Cancel
-                                    </button>
-                                </form>
-                                <div class="buttons" ng-show="!rowform.$visible && order.state.name !== 'Entregado'">
-                                    <button class="btn btn-primary editable-table-button btn-xs" 
-                                            ng-click="rowform.$show()">
-                                            Edit
-                                    </button>
-                                </div>
+                        <td style="padding-top: 5px;min-width: 150px;text-align: center;vertical-align: middle;">
+                                <span ><p style="margin:0;">{{order.state.name}}</p>
                             </td>
-                        </tr>
-                    </tbody>
+                        <td style="vertical-align: middle;padding-top: 5px;text-align: center;min-width: 170.8px;">
+                            <div class="buttons" ng-show="!rowform.$visible" style="border-left: 1px solid gainsboro;">
+                                <button class="btn btn-{{order.state.label}}" ng-click="manageTransition(order)">
+                                    <i ng-show="order.processingTransition" class="fa fa-refresh fa-spin"></i>
+                                    <div ng-show="!order.processingTransition">{{ renderNextState(order.state.id)}}</div>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
                   </table>
             </div>
         </div>
