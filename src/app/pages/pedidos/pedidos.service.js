@@ -4,7 +4,6 @@
     angular.module('BlurAdmin.pages.pedidos').provider('PedidosService', function () {
 
         this.$get = function ($http, credentialsService, SERVER_URL) {
-
             const getOrders = function () {
                 let storeId = credentialsService.getUser();
                 const url = SERVER_URL + '/api/order/store/' + credentialsService.getUser();
@@ -37,10 +36,23 @@
                 });
             };
 
+            const updateState = function (id, state) {
+                const url = SERVER_URL + '/api/order/' + id;
+                return $http({
+                    method: 'PUT',
+                    url: url,
+                    data: { state: state },
+                    headers: {
+                        'Authorization': 'Bearer ' + credentialsService.getToken(),
+                        'Content-Type': 'application/json'
+                    }
+                })
+            }
         
             return {
                 getOrders: getOrders,
-                getOrder: getOrderByID
+                getOrder: getOrderByID,
+                updateState: updateState
             };
         };
     });

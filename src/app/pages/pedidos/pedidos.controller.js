@@ -5,19 +5,106 @@
         .controller('PedidosController', PedidosController);
 
     /** @ngInject */
-    function PedidosController($scope, $window, toastr, toastrConfig, PedidosService, $filter) {
+    function PedidosController($scope, $window, toastr, toastrConfig, PedidosService, $filter, $uibModal) {
         $scope.loading = true;
         $scope.emptyMessage = "No hay ningún pedido para tu comercio";
         $scope.orders = [];
+
+        $scope.toastOptions = {
+            autoDismiss: false,
+            positionClass: 'toast-top-right',
+            type: 'error',
+            timeOut: '3000',
+            extendedTimeOut: '3000',
+            closeButton: true,
+            tapToDismiss: true,
+            progressBar: false,
+            newestOnTop: true,
+            maxOpened: 0,
+            preventDuplicates: false,
+            preventOpenDuplicates: false,
+            allowHtml: true
+        };
+
         $scope.states = [
             { id: 1, status: "TAKEN", text: "Aceptado" },
             { id: 2, status: "PREPARATION", text: "En Preparación" },
-            { id: 3, status: "SENT", text: "Despachado" },
+            { id: 3, status: "DISPATCHED", text: "Despachado" },
             { id: 4, status: "DELIVERED", text: "Entregado" },
-            { id: 5, status: "CANCELLED", text: "Cancelado" },
+            { id: -1, status: "CANCELLED", text: "Cancelado" },
         ];
 
+        $scope.renderNextState = function (currentStateId) {
+            if (currentStateId === -1 || currentStateId === 4) {
+                return "";
+            }
+            return "Pasar a " + this.states.find(function (state) { return state.id === currentStateId + 1; }).text;
+        }
 
+        $scope.manageCancel = function (order) {
+            var modalInstance = $uibModal.open({
+                templateUrl: '/app/pages/pedidos/pedido.modal.html',
+                controller: 'PedidoModalCtrl',
+                controllerAs: 'ctrl',
+                resolve: {
+                  oldState: function () {
+                      return "";
+                  },
+                  newState: function () {
+                      return "Cancelado";
+                  }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                order.processingCancelation = true;
+                PedidosService.updateState(order.id, "CANCELLED").then(function () {
+                    order.state = processState([{ state: "CANCELLED" }]);
+                    order.processingCancelation = false
+                }).catch(function (err) {
+                    var message = "Hubo un error cancelando el pedido"
+                    if (err.data && err.data.message) {
+                        message = err.data.message;
+                    }
+                    toastr["error"](message, "Error cancelando el pedido");
+                    order.processingCancelation = true;
+                })
+            })
+        }
+
+        $scope.manageTransition = function (order) {
+            var currentStateId = order.state.id;
+            var oldState = $scope.states.find(function (state) { return state.id === currentStateId; })
+            var newState = $scope.states.find(function (state) { return state.id === (currentStateId + 1); });
+            var modalInstance = $uibModal.open({
+                templateUrl: '/app/pages/pedidos/pedido.modal.html',
+                controller: 'PedidoModalCtrl',
+                controllerAs: 'ctrl',
+                resolve: {
+                  oldState: function () {
+                      return oldState.text;
+                  },
+                  newState: function () {
+                      return newState.text;
+                  }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                order.processingTransition = true;
+                PedidosService.updateState(order.id, newState.status).then(function () {
+                    order.state = processState([{ state: newState.status }]);
+                    order.processingTransition = false
+                }).catch(function (err) {
+                    var message = "Hubo un error actualizando el estado"
+                    if (err.data && err.data.message) {
+                        message = err.data.message;
+                    }
+                    toastr["error"](message, "Error actualizando el estado");
+                    order.processingTransition = false
+                })
+            })
+        }
 
         $scope.showStatus = function(order) {
             var selected = [];
@@ -39,15 +126,15 @@
             }
             switch(state.state) {
                 case 'TAKEN':
-                    _state.label = 'warning';
+                    _state.label = 'info';
                     _state.name = 'Aceptado';
                     break;
                 case 'PREPARATION':
-                    _state.label = 'info';
+                    _state.label = 'warning';
                     _state.name = 'En preparación';
                     break;
                 case 'DISPATCHED':
-                    _state.label = 'info';
+                    _state.label = 'success';
                     _state.name = 'Despachado';
                     break;
                 case 'DELIVERED':
@@ -59,6 +146,7 @@
                     _state.name = 'Cancelado';
                     break;
             }
+            _state.id = $scope.states.find(function (item) { return item.status === state.state; }).id;
             _state.state = state.state;
             return _state;
         }

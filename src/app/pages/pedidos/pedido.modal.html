@@ -1,0 +1,15 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Cambio de Estado</h3>
+    </div>
+    <div class="modal-body" id="modal-body" ng-if="!ctrl.cancelled">
+        ¿Está seguro que desea pasar el estado del pedido de <b>{{ ctrl.oldState }}</b> a <b>{{ ctrl.newState }}</b>?
+    </div>
+    <div class="modal-body" id="modal-body" ng-if="ctrl.cancelled">
+        ¿Está seguro que desea <b>Cancelar</b> el pedido?
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-{{ctrl.okClass}}" type="button" ng-click="ctrl.ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="ctrl.cancel()">Cancel</button>
+    </div>
+</div>
