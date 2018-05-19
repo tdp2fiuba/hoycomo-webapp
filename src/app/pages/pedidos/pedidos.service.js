@@ -4,7 +4,6 @@
     angular.module('BlurAdmin.pages.pedidos').provider('PedidosService', function () {
 
         this.$get = function ($http, credentialsService, SERVER_URL) {
-            SERVER_URL = "http://localhost:8080";
             const getOrders = function () {
                 let storeId = credentialsService.getUser();
                 const url = SERVER_URL + '/api/order/store/' + credentialsService.getUser();
