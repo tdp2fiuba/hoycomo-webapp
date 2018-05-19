@@ -40,12 +40,21 @@
                                 <span ><p style="margin:0;">{{order.state.name}}</p>
                             </td>
                         <td style="vertical-align: middle;padding-top: 5px;text-align: center;min-width: 170.8px;">
-                            <div class="buttons" ng-show="!rowform.$visible" style="border-left: 1px solid gainsboro;">
-                                <button class="btn btn-{{order.state.label}}" style="margin-left: 5px; width: 100%" ng-click="manageTransition(order)">
+                            <div class="buttons" 
+                                 ng-show="order.state.state !== 'CANCELLED' && order.state.state !== 'DELIVERED'" 
+                                 style="border-left: 1px solid gainsboro;">
+                                 {{order.state.status}}
+                                <button class="btn btn-{{order.state.label}}" 
+                                        style="margin-left: 5px; width: 100%" 
+                                        ng-click="manageTransition(order)"
+                                        ng-disabled="order.processingTransition || order.processingCancelation">
                                     <i ng-show="order.processingTransition" class="fa fa-refresh fa-spin"></i>
                                     <div ng-show="!order.processingTransition">{{ renderNextState(order.state.id)}}</div>
                                 </button>
-                                <button class="btn btn-danger" style="margin-left: 5px; width: 100%" ng-click="manageCancel(order)">
+                                <button class="btn btn-danger" 
+                                        style="margin-left: 5px; width: 100%" 
+                                        ng-click="manageCancel(order)"
+                                        ng-disabled="order.processingTransition || order.processingCancelation">
                                     <i ng-show="order.processingCancelation" class="fa fa-refresh fa-spin"></i>
                                     <div ng-show="!order.processingCancelation">Cancelar</div>
                                 </button>
