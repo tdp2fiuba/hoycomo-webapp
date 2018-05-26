@@ -42,7 +42,7 @@
         }]);
 
     /** @ngInject */
-    function MenuController($scope, $window, toastr, toastrConfig, MenuService) {
+    function MenuController($scope, $window, toastr, toastrConfig, MenuService, $uibModal) {
         $scope.menu = [];
         $scope.noItems = true;
         $scope.newItemFormActive = false;
@@ -162,6 +162,36 @@
                     angular.extend(toastrConfig, self.toastOptions);
                     toastr["error"](self.toastOptions.msg, self.toastOptions.title);
                 });
+        };
+
+        $scope.switchItem = function (disable,item) {
+            const modalInstance = $uibModal.open({
+                templateUrl: '/app/pages/menu/dishStatus.modal.html',
+                controller: 'DishStatusModalCtrl',
+                controllerAs: 'ctrl',
+                resolve: {
+                    disable: disable
+                }
+            });
+
+            modalInstance.result.then(function () {
+                item.processingTransition = true;
+                MenuService.switchItem(disable,item.id)
+                    .then(() => {
+                        item.processingTransition = false;
+                        item.disable = disable;
+                        toastr.success("El plato fue " + (disable ? "desactivado" : "activado"));
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        let message = "Hubo un error, intenta más tarde";
+                        if (err.data && err.data.message) {
+                            message = err.data.message;
+                        }
+                        toastr["error"](message, "Error cambiando el estado del plato");
+                        item.processingTransition = false;
+                    });
+            })
         };
 
         $scope.retrieveMenu();

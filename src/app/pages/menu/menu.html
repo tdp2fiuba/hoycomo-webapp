@@ -7,11 +7,11 @@
                 <hr />
                 <h5>Haga click en "Nuevo" para cargar su primer plato</h5>
             </div>
-            <div ng-show="!noItems">
+            <div ng-show="!noItems" style="margin-bottom: 25px;">
                 <h3>Menú</h3>
                 <div ng-repeat="item in menu">
                     <hr ng-if="$first" />
-                    <div class="menu-item row">
+                    <div class="menu-item row" style="position: relative;border-bottom: 1px solid gainsboro;">
                         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 menu-description">
                             <label class="col-xs-12 col-sm-12 col-md-12 col-lg-12">{{item.name}}</label>
                             <label class="col-xs-12 col-sm-12 col-md-12 col-lg-12 price">${{item.price}}</label>
@@ -19,6 +19,14 @@
                         </div>
                         <img ng-src="{{item.pictures[0]}}" class="col-xs-2 col-sm-2 col-md-2 col-lg-2" ng-show="item.pictures[0]">
                         <span class="col-xs-8 col-sm-8 col-md-8 col-lg-8" ng-show="!item.pictures[0]"></span>
+                        <div style="position:absolute;width: 120px;right: 20px;margin: auto;vertical-align: middle;">
+                            <button class="btn btn-{{item.disable ? 'info' : 'warning'}}" style="width: 100%"
+                                    ng-click="switchItem(!item.disable,item)"
+                                    ng-disabled="item.processingTransition">
+                                    <i ng-show="item.processingTransition" class="fa fa-refresh fa-spin"></i>
+                                {{item.disable ? "Activar" : "Desactivar"}}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

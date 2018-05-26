@@ -11,7 +11,7 @@
                 return $http({
                     method: 'GET',
                     url: url,
-                    params: {count: 100},
+                    params: {all: true},
                     headers: {
                         'Authorization': 'Bearer ' + credentialsService.getToken(),
                         'Content-Type': 'application/json'
@@ -34,10 +34,24 @@
                         data: menuItem
                 });
             };
+
+            function switchItem(disable,id) {
+                const url = SERVER_URL + '/api/dish/'+ id + (disable ? '/disable/' : '/enable/');
+                return $http({
+                    method: 'PUT',
+                    url: url,
+                    headers: {
+                        'Authorization': 'Bearer ' + credentialsService.getToken(),
+                        'Content-Type': 'application/json'
+                    }
+                });
+            }
+
         
             return {
                 getItems: getItems,
-                addItem: addItem
+                addItem: addItem,
+                switchItem: switchItem
             };
         };
     });

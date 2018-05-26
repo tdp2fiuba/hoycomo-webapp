@@ -39,7 +39,7 @@
                 return "";
             }
             return "Pasar a " + this.states.find(function (state) { return state.id === currentStateId + 1; }).text;
-        }
+        };
 
         $scope.manageCancel = function (order) {
             var modalInstance = $uibModal.open({
@@ -70,7 +70,7 @@
                     order.processingCancelation = true;
                 })
             })
-        }
+        };
 
         $scope.manageTransition = function (order) {
             var currentStateId = order.state.id;

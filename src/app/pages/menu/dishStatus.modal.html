@@ -1,0 +1,12 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">{{ctrl.disable ? "Desactivar" : "Activar"}} Plato</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        ¿Está seguro que desea <b>{{ctrl.disable ? "desactivar" : "activar"}}</b> el plato?
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-{{ctrl.disable ? 'danger' : 'primary'}}" type="button" ng-click="ctrl.ok()">{{ctrl.disable ? "Desactivar" : "Activar"}}</button>
+        <button class="btn btn-warning" type="button" ng-click="ctrl.cancel()">Cancelar</button>
+    </div>
+</div>

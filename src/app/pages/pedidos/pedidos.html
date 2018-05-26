@@ -37,8 +37,8 @@
                         <td style="line-height: 23px;padding-top: 5px;"><span ><b>${{order.price}}</b></span> <p style="margin:0;">{{order.payMethod}}</p></td>
 
                         <td style="padding-top: 5px;min-width: 150px;text-align: center;vertical-align: middle;">
-                                <span ><p style="margin:0;">{{order.state.name}}</p>
-                            </td>
+                            <span ><p style="margin:0;">{{order.state.name}}</p></span>
+                        </td>
                         <td style="vertical-align: middle;padding-top: 5px;text-align: center;min-width: 170.8px;">
                             <div class="buttons" 
                                  ng-show="order.state.state !== 'CANCELLED' && order.state.state !== 'DELIVERED'" 
