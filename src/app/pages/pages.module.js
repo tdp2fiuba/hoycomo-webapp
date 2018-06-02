@@ -11,6 +11,7 @@
     'BlurAdmin.pages.profile',
     'BlurAdmin.pages.misDatos',
     'BlurAdmin.pages.pedidos',
+    'BlurAdmin.pages.discount',
     'ngAnimate',
     'ngMessages'
   ])
