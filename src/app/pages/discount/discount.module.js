@@ -14,7 +14,7 @@
                 controller: 'DiscountController',
                 provider: 'DiscountController',
                 sidebarMeta: {
-                    icon: 'ion-ios-cash',
+                    icon: 'ion-ios-toggle',
                     order: 1
                 }
             });

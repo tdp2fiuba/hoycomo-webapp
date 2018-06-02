@@ -229,7 +229,7 @@
                         dishes: processDishes(order),
                         client: {name : order.user.first_name + " " + order.user.last_name, avatar: order.user.avatar},
                         notes: order.description,
-                        price: order.price,
+                        price: order.price  - (order.discount ? (order.price*order.discount/100) : 0 ),
                         payMethod: "Efectivo",
                         state: processState(order.states),
                     });
