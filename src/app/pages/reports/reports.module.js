@@ -16,6 +16,15 @@
                     icon: 'ion-stats-bars',
                     order: 800,
                 },
+            })
+            .state('reports.leadTime', {
+                url: '/tiempoEspera',
+                templateUrl: 'app/pages/reports/leadTime/leadTime.html',
+                title: 'Tiempo de espera',
+                controller: 'leadTimeController',
+                sidebarMeta: {
+                    order: 0,
+                },
             });
     }
 })();
