@@ -19,5 +19,39 @@ angular.module('BlurAdmin', [
   'ngCookies',
   'sharedServices',
   'angularjs-dropdown-multiselect'
-]).constant('SERVER_URL','https://hoycomo-server.herokuapp.com');
-//]).constant('SERVER_URL','http://localhost:8080');
+])
+
+    .factory('Server', function () {
+        var SERVER_URI = "https://hoycomo-server.herokuapp.com";
+        //var SERVER_URI = "http://localhost:8080";
+
+        function getLeadTime(start,end,callback) {
+            var response = {};
+
+            if (!start || !end){
+                response.success = false;
+                response.error = "Debe ingresar una fecha de inicio";
+                return response;
+            }
+            if (!end){
+                response.success = false;
+                response.error = "Debe ingresar una fecha de fín";
+                return response;
+            }
+            $.get(SERVER_URI + "/api/stats/fee",{start_date:start,end_date:end})
+                .done(function (dataResponse) {
+                    response.success = true;
+                    response.fee = dataResponse;
+                    callback(response);
+                })
+                .fail(function ( jqXHR, textStatus) {
+                    response.success = false;
+                    response.error = jqXHR.responseJSON.message || "intente nuevamente más tarde";
+                    callback(response);
+                });
+        }
+
+        return {
+            getLeadTime          : getLeadTime
+        }
+    });
