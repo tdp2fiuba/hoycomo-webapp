@@ -2,23 +2,20 @@
     'use strict';
 
     angular.module('BlurAdmin.pages.reports')
-        .controller('leadTimeController', leadTimeController);
+        .controller('leadTimeReportsController', ordersReportsController);
 
     /** @ngInject */
-    function leadTimeController($scope, $window, toastr, toastrConfig, Server, $filter, $uibModal) {
+    function ordersReportsController($scope, $window, toastr, toastrConfig, LeadTimeReportsService, baConfig) {
         $scope.loading = true;
         $scope.emptyMessage = "No hay tiempos de espera promedio disponibles";
-        $scope.leadTime = [];
 
+        $scope.leadTimePerDay = [];
+
+        const end = new Date;
+        const start = new Date(end.getFullYear(),end.getMonth() - 1, end.getDate());
         $scope.date = {
-            start: new Date(2018, 2, 1, 0, 0),
-            end: new Date()
-        };
-
-        $scope.datepickerOption = {
-            showWeeks: false,
-            datepickerMode: 'month',
-            //minMode: 'month'
+            start: start,
+            end: end
         };
 
         $scope.toastOptions = {
@@ -37,26 +34,26 @@
             allowHtml: true
         };
 
-
         function getLeadTime() {
             $scope.loading = true;
-            var start = $scope.date.start.toString();
-            var end = $scope.date.end.toString();
-            Server.getLeadTime(start,end,function (res) {
-                if (!res.success){
-                    toastr.error(res.error, 'Error al cargar las comisiones');
+            const start = $scope.date.start.toString();
+            const end = $scope.date.end.toString();
+            LeadTimeReportsService.getLeadTimePerDay(start,end)
+                .then(res => {
+                    if (!res.success){
+                        toastr.error(res.error, 'Error al cargar los tiempos de espera promedio');
+                        $scope.loading = false;
+                        return;
+                    }
+                    $scope.leadTimePerDay = res.lead_time;
+
                     $scope.loading = false;
-                    return;
-                }
-
-                $scope.leadTime = res.leadTime;
-
-                $scope.loading = false;
-            });
+                });
         }
 
         $scope.getLeadTime = getLeadTime;
 
+        $scope.loading = false;
         getLeadTime();
     }
 

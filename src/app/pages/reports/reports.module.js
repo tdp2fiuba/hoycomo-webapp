@@ -2,7 +2,14 @@
     'use strict';
 
     angular.module('BlurAdmin.pages.reports', [])
-        .config(routeConfig);
+        .config(routeConfig)
+        .config(function(baConfigProvider) {
+            var layoutColors = baConfigProvider.colors;
+            Morris.Donut.prototype.defaults.backgroundColor = 'transparent';
+            Morris.Donut.prototype.defaults.labelColor = layoutColors.defaultText;
+            Morris.Grid.prototype.gridDefaults.gridLineColor = layoutColors.borderDark;
+            Morris.Grid.prototype.gridDefaults.gridTextColor = layoutColors.defaultText;
+        });
 
     /** @ngInject */
     function routeConfig($stateProvider) {
@@ -21,7 +28,7 @@
                 url: '/tiempoEspera',
                 templateUrl: 'app/pages/reports/leadTime/leadTime.html',
                 title: 'Tiempo de espera',
-                controller: 'leadTimeController',
+                controller: 'leadTimeReportsController',
                 sidebarMeta: {
                     order: 0,
                 },
