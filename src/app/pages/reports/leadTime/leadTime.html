@@ -6,7 +6,8 @@
                     <td align="center">
                         <h4>Desde</h4>
                         <div class="uib-datepicker-wrap" style="min-height: 245px;">
-                            <uib-datepicker ng-model="date.start" datepicker-options="datepickerOption"></uib-datepicker>
+                            <uib-datepicker ng-model="date.start" datepicker-options="{showWeeks: false,
+                            datepickerMode: 'day',maxDate: date.end}"></uib-datepicker>
                         </div>
                         <label>Fecha seleccionada: <em>{{date.start | date:'fullDate' }}</em></label>
                     </td>
@@ -14,7 +15,8 @@
                         <div class="col-xlg-6 col-md-12 col-sm-6">
                             <h4>Hasta</h4>
                             <div class="uib-datepicker-wrap" style="min-height: 245px;">
-                                <uib-datepicker ng-model="date.end" datepicker-options="datepickerOption"></uib-datepicker>
+                                <uib-datepicker ng-model="date.end" datepicker-options="{showWeeks: false,
+                                datepickerMode: 'day',minDate: date.start}"></uib-datepicker>
                             </div>
                             <label>Fecha seleccionada: <em>{{date.end | date:'fullDate' }}</em></label>
                         </div>
@@ -31,7 +33,7 @@
 
             <div ng-if="loading">
 
-                <p style="text-align: center;padding: 10px 0 0 0; font-size: 30px;">Cargando tiempos de espera promedio ...</p>
+                <p style="text-align: center;padding: 10px 0 0 0; font-size: 30px;">Cargando tiempos de espera promedio...</p>
 
                 <div class="cssload-container">
                     <div class="cssload-arc">
@@ -41,22 +43,16 @@
             </div>
 
             <div ng-if="!loading">
-                <div class="table-responsive" ng-if="leadTime.length" style="font-size: 22px;">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr class="black-muted-bg">
-                            <th style="text-align: left;font-weight: bold;">Comercio</th>
-                            <th class="align-right" style="font-weight: bold;">Tiempo de espera promedio</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="time in leadTime" class="editable-row">
-                            <td style="text-align: left;font-size: 18px;">{{time.store}}</td>
-                            <td class="align-right" style="font-size: 18px;">$ {{time.leadTime.toFixed(2)}}</td>
-                        </tr>
-                    </table>
+                <div
+                        bar-chart
+                        bar-data='leadTimePerDay'
+                        bar-x='day'
+                        bar-y='["leadTime"]'
+                        bar-labels='["Tiempos de espera promedio"]'
+                        bar-colors='["#31C0BE"]'
+                        ng-if="leadTimePerDay.length">
                 </div>
-                <div style="text-align: center;" ng-if="!leadTime.length">
+                <div style="text-align: center;" ng-if="!leadTimePerDay.length">
                     <i class="ion-android-sad" style="font-size: 50px;"></i>
                     <p style="margin-top: 10px;font-size: 25px;">{{emptyMessage}}</p>
                 </div>
