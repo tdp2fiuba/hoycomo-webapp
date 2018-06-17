@@ -21,7 +21,7 @@
                     }
                 })
                     .then(response => {
-                        return Promise.resolve({success: true, orders: response.data});
+                        return Promise.resolve({success: true, lead_time: response.data});
                     });
             };
 

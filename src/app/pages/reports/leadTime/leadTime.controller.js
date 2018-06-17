@@ -45,7 +45,8 @@
                         $scope.loading = false;
                         return;
                     }
-                    $scope.leadTimePerDay = res.lead_time;
+
+                    $scope.leadTimePerDay = res.lead_time; // lead_time server response is in seconds.
 
                     $scope.loading = false;
                 });
