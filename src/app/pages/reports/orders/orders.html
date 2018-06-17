@@ -1,0 +1,62 @@
+<div ba-panel ba-panel-class="menu-page">
+    <div class="panel-content">
+        <div class="widgets horizontal-scroll">
+            <table style="width: 100%;margin-bottom: 15px;">
+                <tr>
+                    <td align="center">
+                        <h4>Desde</h4>
+                        <div class="uib-datepicker-wrap" style="min-height: 245px;">
+                            <uib-datepicker ng-model="date.start" datepicker-options="{showWeeks: false,
+                            datepickerMode: 'day',maxDate: date.end}"></uib-datepicker>
+                        </div>
+                        <label>Fecha seleccionada: <em>{{date.start | date:'fullDate' }}</em></label>
+                    </td>
+                    <td align="center">
+                        <div class="col-xlg-6 col-md-12 col-sm-6">
+                            <h4>Hasta</h4>
+                            <div class="uib-datepicker-wrap" style="min-height: 245px;">
+                                <uib-datepicker ng-model="date.end" datepicker-options="{showWeeks: false,
+                                datepickerMode: 'day',minDate: date.start}"></uib-datepicker>
+                            </div>
+                            <label>Fecha seleccionada: <em>{{date.end | date:'fullDate' }}</em></label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="2" style="padding: 0 20%;">
+                        <button ng-disabled="loading" type="button" class="btn btn-info btn-lg" style="width: 100%;margin-top: 20px;" ng-click="getOrders()">
+                            Filtrar pedidos
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            <div ng-if="loading">
+
+                <p style="text-align: center;padding: 10px 0 0 0; font-size: 30px;">Cargando pedidos...</p>
+
+                <div class="cssload-container">
+                    <div class="cssload-arc">
+                        <div class="cssload-arc-cube"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="!loading">
+                <div
+                        bar-chart
+                        bar-data='ordersPerDay'
+                        bar-x='day'
+                        bar-y='["orders"]'
+                        bar-labels='["Pedidos"]'
+                        bar-colors='["#31C0BE"]'
+                        ng-if="ordersPerDay.length">
+                </div>
+                <div style="text-align: center;" ng-if="!ordersPerDay.length">
+                    <i class="ion-android-sad" style="font-size: 50px;"></i>
+                    <p style="margin-top: 10px;font-size: 25px;">{{emptyMessage}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

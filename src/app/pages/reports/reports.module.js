@@ -2,14 +2,13 @@
     'use strict';
 
     angular.module('BlurAdmin.pages.reports', [])
-        .config(routeConfig)
-        .config(function(baConfigProvider) {
-            var layoutColors = baConfigProvider.colors;
-            Morris.Donut.prototype.defaults.backgroundColor = 'transparent';
-            Morris.Donut.prototype.defaults.labelColor = layoutColors.defaultText;
-            Morris.Grid.prototype.gridDefaults.gridLineColor = layoutColors.borderDark;
-            Morris.Grid.prototype.gridDefaults.gridTextColor = layoutColors.defaultText;
-        });
+        .config(routeConfig).config(function(baConfigProvider){
+        var layoutColors = baConfigProvider.colors;
+        Morris.Donut.prototype.defaults.backgroundColor = 'transparent';
+        Morris.Donut.prototype.defaults.labelColor = layoutColors.defaultText;
+        Morris.Grid.prototype.gridDefaults.gridLineColor = layoutColors.borderDark;
+        Morris.Grid.prototype.gridDefaults.gridTextColor = layoutColors.defaultText;
+    });
 
     /** @ngInject */
     function routeConfig($stateProvider) {
@@ -22,6 +21,15 @@
                 sidebarMeta: {
                     icon: 'ion-stats-bars',
                     order: 800,
+                },
+            })
+            .state('reports.orders', {
+                url: '/pedidos',
+                templateUrl: 'app/pages/reports/orders/orders.html',
+                title: 'Pedidos',
+                controller: 'ordersReportsController',
+                sidebarMeta: {
+                    order: 0,
                 },
             })
             .state('reports.leadTime', {
