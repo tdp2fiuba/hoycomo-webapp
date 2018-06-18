@@ -34,12 +34,19 @@
                 })
             };
 
+            var logout = function () {
+                $cookies.remove('session_token');
+                $cookies.remove('store');
+                $window.location.href = $window.location.origin + "/auth.html";
+            }
+
             var getStoreId = function () {
                 return _getStore().id;
             };
 
             return {
                 login: login,
+                logout: logout,
                 getUser: getStoreId,
                 getToken: getToken
             }

@@ -55,3 +55,4 @@ angular.module('BlurAdmin', [
             getLeadTime          : getLeadTime
         }
     });
+

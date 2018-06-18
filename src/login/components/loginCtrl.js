@@ -41,4 +41,8 @@ angular.module('BlurAdmin.login')
                         toastr["error"](self.toastOptions.msg, self.toastOptions.title);
                     })
         }
+
+        self.logout = function () {
+            alert("HERE");
+        }
     })
