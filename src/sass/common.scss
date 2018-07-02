@@ -22,6 +22,19 @@
     }
 }
 
+.userpic {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .userpic-wrapper {
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
 .userpic-wrapper img {
     max-height: 100%;
     max-width: 100%;

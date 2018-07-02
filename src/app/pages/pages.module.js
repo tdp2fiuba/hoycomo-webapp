@@ -8,7 +8,6 @@
   angular.module('BlurAdmin.pages', [
     'ui.router',
     'BlurAdmin.pages.menu',
-    'BlurAdmin.pages.profile',
     'BlurAdmin.pages.misDatos',
     'BlurAdmin.pages.pedidos',
     'BlurAdmin.pages.discount',

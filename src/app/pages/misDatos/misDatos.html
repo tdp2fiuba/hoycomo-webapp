@@ -11,7 +11,7 @@
             <button type="button" class="btn btn-success btn-raised" ng-click="toggleEditProfile()">Editar Perfil</button>
         </div>
     </div>
-    <div ng-if="profileLoaded" class="fadeIf" ba-panel>
+    <div ng-if="profileLoaded && !showAddProfile" class="fadeIf" ba-panel>
         <div class="row show-grid">
             <div class="col-md-12">
                 <h2>{{ ctrl.profile.name }}</h2>
@@ -56,6 +56,11 @@
                         <img ng-src="{{ ctrl.profile.logo }}"/>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 20px;">
+            <div class="col-md-2">
+                <button class="btn btn-primary" style="width:100%;" ng-click="toggleEditProfile()">Editar</button>
             </div>
         </div>
     </div>
