@@ -15,6 +15,23 @@
   text-align: left !important;
   font-weight: 700; }
 
+.userpic {
+  overflow: hidden;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center; }
+  .userpic .userpic-wrapper {
+    overflow: hidden;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center; }
+
 .userpic-wrapper img {
   max-height: 100%;
   max-width: 100%; }
