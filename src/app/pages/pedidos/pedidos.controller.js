@@ -9,6 +9,8 @@
         $scope.loading = true;
         $scope.emptyMessage = "No hay ningún pedido para tu comercio";
         $scope.orders = [];
+        $scope.cancelationSpinnerClass = "fa fa-refresh fa-spin";
+        $scope.transitionSpinnerClass = "fa fa-refresh fa-spin";
 
         $scope.toastOptions = {
             autoDismiss: false,
@@ -58,9 +60,12 @@
 
             modalInstance.result.then(function () {
                 order.processingCancelation = true;
+                order.cancelationSpinnerClass = $scope.cancelationSpinnerClass;
                 PedidosService.updateState(order.id, "CANCELLED").then(function () {
-                    order.state = processState([{ state: "CANCELLED" }]);
                     order.processingCancelation = false
+                    order.state = processState([{ state: "CANCELLED" }]);
+
+                    order.spinnerClass = "";
                 }).catch(function (err) {
                     var message = "Hubo un error cancelando el pedido"
                     if (err.data && err.data.message) {
@@ -92,9 +97,11 @@
 
             modalInstance.result.then(function () {
                 order.processingTransition = true;
+                order.transitionSpinnerClass = $scope.transitionSpinnerClass;
                 PedidosService.updateState(order.id, newState.status).then(function () {
-                    order.state = processState([{ state: newState.status }]);
                     order.processingTransition = false
+                    order.state = processState([{ state: newState.status }]);
+                    order.transitionSpinnerClass = "";
                 }).catch(function (err) {
                     var message = "Hubo un error actualizando el estado"
                     if (err.data && err.data.message) {

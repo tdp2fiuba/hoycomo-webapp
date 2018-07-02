@@ -48,14 +48,14 @@
                                         style="margin-left: 5px; width: 100%" 
                                         ng-click="manageTransition(order)"
                                         ng-disabled="order.processingTransition || order.processingCancelation">
-                                    <i ng-show="order.processingTransition" class="fa fa-refresh fa-spin"></i>
+                                    <i ng-show="order.processingTransition" ng-class="order.transitionSpinnerClass"></i>
                                     <div ng-show="!order.processingTransition">{{ renderNextState(order.state.id)}}</div>
                                 </button>
                                 <button class="btn btn-danger" 
                                         style="margin-left: 5px; width: 100%" 
                                         ng-click="manageCancel(order)"
                                         ng-disabled="order.processingTransition || order.processingCancelation">
-                                    <i ng-show="order.processingCancelation" class="fa fa-refresh fa-spin"></i>
+                                    <i ng-show="order.processingCancelation" ng-class="order.cancelationSpinnerClass"></i>
                                     <div ng-show="!order.processingCancelation">Cancelar</div>
                                 </button>
                             </div>
