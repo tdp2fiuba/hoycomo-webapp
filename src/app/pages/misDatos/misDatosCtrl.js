@@ -10,6 +10,25 @@
         "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30",
         '24:00'
       ];
+    
+    var convertURLToBase64 = function(url) {
+        return new Promise(function(resolve, reject) {
+            var img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.onload = function(){
+                var canvas = document.createElement("canvas");
+                canvas.width = this.width;
+                canvas.height = this.height;
+
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(this, 0, 0);
+
+                var dataURL = canvas.toDataURL("image/png");
+                resolve(dataURL); 
+            };
+            img.src = url;
+        });
+    }
 
     function DayAvailability(day, startTime, endTime) {
         var self = this;
@@ -209,19 +228,38 @@
                     avatarType: self.profile.logoType,
                     foodTypes: self.profile.storeFoodTypes
                 }
+                if (profile.avatar.indexOf("http") > -1) {
+                    convertURLToBase64(profile.avatar).then(function (data) {
+                        profile.avatar = data;
+                        $scope.saving = true;
+                        storeService.saveProfile(profile).then(function (data) {
+                            $scope.saving = false;
+                            self.profile.availability = profile.availability;
+                            self.profile.avatar = data.data.avatar;
+                            $scope.profileLoaded = true;
+                            $scope.showAddProfile = false;
+                            $scope.loadProfile();
+                        }).catch(function (err) {
+                            $scope.saving = false;
+                            angular.extend(toastrConfig, toastOptions);
+                            toastr["error"]("Hubo un error intentando guardar el perfil. Intente nuevamente", "Error guardando perfil");
+                        })
+                    });
+                } else {
                 $scope.saving = true;
-                storeService.saveProfile(profile).then(function (data) {
-                    $scope.saving = false;
-                    self.profile.availability = profile.availability;
-                    self.profile.avatar = data.data.avatar;
-                    $scope.profileLoaded = true;
-                    $scope.showAddProfile = false;
-                    $scope.loadProfile();
-                }).catch(function (err) {
-                    $scope.saving = false;
-                    angular.extend(toastrConfig, toastOptions);
-                    toastr["error"]("Hubo un error intentando guardar el perfil. Intente nuevamente", "Error guardando perfil");
-                })
+                    storeService.saveProfile(profile).then(function (data) {
+                        $scope.saving = false;
+                        self.profile.availability = profile.availability;
+                        self.profile.avatar = data.data.avatar;
+                        $scope.profileLoaded = true;
+                        $scope.showAddProfile = false;
+                        $scope.loadProfile();
+                    }).catch(function (err) {
+                        $scope.saving = false;
+                        angular.extend(toastrConfig, toastOptions);
+                        toastr["error"]("Hubo un error intentando guardar el perfil. Intente nuevamente", "Error guardando perfil");
+                    })
+                }
             } else {
                 var message = ""
                 if (self.profile.storeFoodTypes.length === 0) {
